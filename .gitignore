@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.local
+storybook-static/
+.env
+.env.*
+!.env.example
+.tsc-out/
+.playwright-mcp/
+
+docs/plans/

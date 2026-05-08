@@ -1,0 +1,133 @@
+{
+  "$schema": "https://claude.ai/schemas/claudecode.json",
+  "project": {
+    "name": "inzumer-ui-library",
+    "description": "Scalable React component library optimized for WebViews, accessibility, and multi-project usage."
+  },
+  "context": {
+    "maxTokens": 120000,
+    "includeGitDiff": true,
+    "includeOpenFiles": true,
+    "includeDiagnostics": true,
+    "includeTerminal": true,
+    "includeProblemsPanel": true
+  },
+  "agents": [
+    {
+      "name": "architect",
+      "path": "./agents/architect-agent.md"
+    },
+    {
+      "name": "a11y",
+      "path": "./agents/a11y-agent.md"
+    },
+    {
+      "name": "performance",
+      "path": "./agents/performance-agent.md"
+    },
+    {
+      "name": "planner",
+      "path": "./agents/planner-agent.md"
+    },
+    {
+      "name": "task-runner",
+      "path": "./agents/task-runner-agent.md"
+    },
+    {
+      "name": "mobile-bridge",
+      "path": "./agents/mobile-bridge-agent.md"
+    },
+    {
+      "name": "design-system",
+      "path": "./agents/design-system-agent.md"
+    },
+    {
+      "name": "testing-strategy",
+      "path": "./agents/testing-strategy-agent.md"
+    },
+    {
+      "name": "documentation",
+      "path": "./agents/documentation-agent.md"
+    }
+  ],
+  "rules": {
+    "typescript": {
+      "strict": true,
+      "forbidAny": true,
+      "preferInterfaces": true
+    },
+
+    "react": {
+      "preferComposition": true,
+      "forbidPropDrilling": true,
+      "maxComponentLines": 150,
+      "preferHeadlessPatterns": true
+    },
+    "imports": {
+      "preferAliases": true,
+      "forbidDeepRelativeImports": true,
+      "allowedAliases": [
+        "@components",
+        "@hooks",
+        "@utils",
+        "@types",
+        "@styles",
+        "@tokens"
+      ]
+    },
+    "testing": {
+      "minimumCoverage": 90,
+      "requireA11yTests": true,
+      "requireStories": true
+    }
+  },
+  "tools": {
+    "terminal": {
+      "enabled": true,
+      "allow": [
+        "npm",
+        "pnpm",
+        "yarn",
+        "vite",
+        "vitest",
+        "eslint",
+        "tsc",
+        "storybook",
+        "git"
+      ]
+    },
+    "browser": {
+      "enabled": true,
+      "captureConsole": true,
+      "captureNetwork": true,
+      "captureErrors": true,
+      "capturePerformance": true
+    },
+    "storybook": {
+      "enabled": true,
+      "url": "http://localhost:6006",
+      "captureA11y": true,
+      "captureConsole": true
+    },
+    "figma": {
+      "enabled": true,
+      "mode": "design-system",
+      "syncTokens": true
+    }
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "storybook": "npm run storybook",
+    "test": "npm run test",
+    "test:coverage": "npm run test --coverage",
+    "lint": "npm run lint",
+    "build": "npm run build",
+    "typecheck": "npm run tsc --noEmit"
+  },
+  "memory": {
+    "persistArchitecture": true,
+    "persistPatterns": true,
+    "persistDesignTokens": true,
+    "persistTestingRules": true
+  }
+}
