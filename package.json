@@ -1,109 +1,30 @@
 {
-  "name": "@inzumer/ui-library",
-  "version": "0.1.2",
-  "description": "Production-grade React component library for web and mobile webview.",
-  "keywords": [
-    "react",
-    "ui",
-    "component-library",
-    "accessibility",
-    "design-system",
-    "tailwind"
-  ],
-  "license": "MIT",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/es/index.js",
-  "types": "./dist/types/index.d.ts",
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./styles": "./dist/globals.css"
+  "name": "@cysur/root",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Cysur Design System monorepo",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "prebuild": "rm -rf dist",
-    "build": "BUILD_FORMAT=es vite build && BUILD_FORMAT=cjs vite build && npx tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --minify",
-    "build:storybook": "storybook build",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "pre-publish": "npm run typecheck && npm run test && npm run build",
-    "publish:dry": "npm pack --dry-run",
-    "publish:local": "npm pack",
-    "release": "npm run pre-publish && npm publish --access public"
-  },
-  "peerDependencies": {
-    "class-variance-authority": ">=0.7.0",
-    "clsx": ">=2.0.0",
-    "react": ">=18 || ^19",
-    "react-dom": ">=18 || ^19",
-    "tailwind-merge": ">=2.0.0"
-  },
-  "peerDependenciesMeta": {
-    "class-variance-authority": {
-      "optional": false
-    },
-    "clsx": {
-      "optional": false
-    },
-    "tailwind-merge": {
-      "optional": false
-    }
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\" --ignore-path .gitignore",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "turbo run build && changeset publish",
+    "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^8.4.7",
-    "@storybook/addon-actions": "8.6.18",
-    "@storybook/addon-docs": "8.6.18",
-    "@storybook/addon-interactions": "8.6.18",
-    "@storybook/addon-themes": "8.6.18",
-    "@storybook/addon-viewport": "^8.4.7",
-    "@storybook/react": "^8.4.7",
-    "@storybook/react-vite": "^8.4.7",
-    "@storybook/test": "^8.4.7",
-    "@testing-library/dom": "10.4.1",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.1.0",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/jest-axe": "3.5.9",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/coverage-v8": "^2.1.6",
-    "autoprefixer": "^10.4.20",
-    "class-variance-authority": "0.7.1",
-    "clsx": "2.1.1",
-    "eslint": "^9.16.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.3",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-storybook": "^0.11.1",
-    "jest-axe": "^9.0.0",
-    "jsdom": "^25.0.1",
-    "postcss": "^8.4.49",
+    "@changesets/cli": "^2.27.9",
     "prettier": "^3.4.2",
-    "storybook": "^8.4.7",
-    "tailwind-merge": "2.6.1",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.5",
-    "vite-plugin-dts": "^4.3.0",
-    "vitest": "^2.1.6"
-  },
-  "dependencies": {
-    "@inzumer/ui-library": "0.1.1"
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
   }
 }

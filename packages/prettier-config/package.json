@@ -1,0 +1,17 @@
+{
+  "name": "@cysur/prettier-config",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Shared Prettier configuration for the Cysur design system",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.json",
+  "exports": {
+    ".": "./index.json"
+  },
+  "files": [
+    "index.json"
+  ]
+}

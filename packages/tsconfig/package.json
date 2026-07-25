@@ -1,0 +1,20 @@
+{
+  "name": "@cysur/tsconfig",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Shared TypeScript configurations for the Cysur design system",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./base": "./base.json",
+    "./react-library": "./react-library.json",
+    "./node": "./node.json"
+  },
+  "files": [
+    "base.json",
+    "react-library.json",
+    "node.json"
+  ]
+}

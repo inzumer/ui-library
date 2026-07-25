@@ -1,0 +1,49 @@
+{
+  "name": "@cysur/tokens",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Design tokens, theming, and Tailwind preset for the Cysur design system",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tailwind": {
+      "types": "./dist/tailwind/preset.d.ts",
+      "import": "./dist/tailwind/preset.js"
+    },
+    "./css/reset": "./dist/css/reset.css",
+    "./css/variables": "./dist/css/variables.css",
+    "./css/typography": "./dist/css/typography.css",
+    "./css/scrollbar": "./dist/css/scrollbar.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup && pnpm run build:css",
+    "build:css": "cp src/css/*.css dist/css/",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=18 || ^19",
+    "react-dom": ">=18 || ^19"
+  },
+  "devDependencies": {
+    "@cysur/tsconfig": "workspace:*",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.6"
+  }
+}
