@@ -1,9 +1,6 @@
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'path';
 import type { StorybookConfig } from '@storybook/react-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
   stories: ['../packages/ui/src/**/*.stories.@(ts|tsx)', '../docs/**/*.mdx'],
@@ -24,15 +21,18 @@ const config: StorybookConfig = {
     options: {},
   },
   viteFinal: (config) => {
-    // Resolves the same @components/@utils/@styles/@themes/@tokens/@theme-types
-    // aliases declared in each package's own tsconfig.json, scoped to
-    // whichever package the importing file lives in.
+    // Resolved from process.cwd() (the repo root, where Storybook is always
+    // invoked from) rather than __dirname/import.meta.url: this file gets
+    // evaluated under different module contexts (CJS-ish for the static
+    // config, real ESM when Vite later calls viteFinal), and neither
+    // __dirname nor import.meta is safe in both.
+    const root = process.cwd();
     config.plugins = config.plugins ?? [];
     config.plugins.push(
       tsconfigPaths({
         projects: [
-          resolve(__dirname, '../packages/ui/tsconfig.json'),
-          resolve(__dirname, '../packages/tokens/tsconfig.json'),
+          resolve(root, 'packages/ui/tsconfig.json'),
+          resolve(root, 'packages/tokens/tsconfig.json'),
         ],
       }),
     );
@@ -40,7 +40,7 @@ const config: StorybookConfig = {
     config.resolve = config.resolve ?? {};
     config.resolve.alias = {
       ...(config.resolve.alias ?? {}),
-      '@inzumer/tokens': resolve(__dirname, '../packages/tokens/src/index.ts'),
+      '@inzumer/tokens': resolve(root, 'packages/tokens/src/index.ts'),
     };
     return config;
   },
