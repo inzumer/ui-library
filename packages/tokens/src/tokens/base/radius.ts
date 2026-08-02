@@ -2,11 +2,11 @@ import type { BaseRadius } from '@theme-types/theme.js';
 
 export const baseRadius: BaseRadius = {
   none: '0px',
-  sm: '0.125rem',
-  md: '0.375rem',
-  lg: '0.5rem',
-  xl: '0.75rem',
-  '2xl': '1rem',
-  '3xl': '1.5rem',
+  sm: '0.2rem',
+  md: '0.6rem',
+  lg: '0.8rem',
+  xl: '1.2rem',
+  '2xl': '1.6rem',
+  '3xl': '2.4rem',
   full: '9999px',
 };
