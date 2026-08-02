@@ -1,9 +1,10 @@
-export const timelineStyles = 'flex flex-col gap-8 border-l border-[var(--border-default)] pl-6';
+export const timelineStyles =
+  "relative flex flex-col gap-8 pl-6 before:absolute before:bottom-0 before:left-0 before:top-1.5 before:border-l before:border-[var(--border-default)] before:content-['']";
 
 export const timelineItemStyles = 'relative';
 
 export const timelineNodeStyles =
-  'absolute -left-[1.6rem] top-1.5 h-2.5 w-2.5 rounded-full bg-[var(--btn-primary-bg)]';
+  'absolute -left-6 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[var(--btn-primary-bg)]';
 
 export const timelineTitleStyles = 'text-base font-bold text-[var(--text-primary)]';
 
