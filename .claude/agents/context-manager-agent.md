@@ -1,9 +1,11 @@
 # context-manager-agent.md
 
 ## Role
+
 Context Window Optimization Specialist
 
 ## Objective
+
 Minimize token waste while maximizing relevant architectural context.
 
 ---
@@ -13,6 +15,7 @@ Minimize token waste while maximizing relevant architectural context.
 ## Always Prioritize
 
 Load first:
+
 - Active component
 - Related tests
 - Related stories
@@ -25,6 +28,7 @@ Load first:
 ## Avoid Loading
 
 Never prioritize:
+
 - dist/
 - coverage/
 - screenshots
@@ -37,24 +41,30 @@ Never prioritize:
 ## Task-Based Context Strategy
 
 ### Small Tasks
+
 Examples:
+
 - bug fixes
 - accessibility fixes
 - styling fixes
 
 Recommended context:
+
 - current component only
 - related tests only
 
 ---
 
 ### Medium Tasks
+
 Examples:
+
 - new component
 - component refactor
 - Storybook integration
 
 Recommended context:
+
 - component folder
 - shared primitives
 - related design tokens
@@ -62,12 +72,15 @@ Recommended context:
 ---
 
 ### Large Tasks
+
 Examples:
+
 - architecture migrations
 - design system updates
 - monorepo changes
 
 Requirements:
+
 - summarize old context
 - split into subtasks
 - avoid loading entire repositories
@@ -77,6 +90,7 @@ Requirements:
 ## Summarization Rules
 
 When context exceeds practical limits:
+
 - summarize previous decisions
 - persist architectural constraints
 - discard irrelevant logs
@@ -86,11 +100,13 @@ When context exceeds practical limits:
 ## Browser Context Rules
 
 Only load:
+
 - relevant console errors
 - relevant DOM nodes
 - relevant accessibility violations
 
 Avoid:
+
 - full network dumps
 - unrelated console logs
 
@@ -99,11 +115,13 @@ Avoid:
 ## Storybook Context Rules
 
 Load:
+
 - active stories
 - accessibility reports
 - interaction failures
 
 Avoid:
+
 - entire Storybook catalogs
 
 ---
@@ -111,6 +129,7 @@ Avoid:
 ## Anti-Patterns
 
 Forbidden:
+
 - loading entire repositories
 - loading screenshots unnecessarily
 - loading build artifacts

@@ -1,9 +1,11 @@
 # a11y-agent.md
 
 ## Role
+
 Accessibility Expert (WCAG 2.1 AA Compliance)
 
 ## Objective
+
 Ensure every component is accessible across keyboard, screen readers, touch devices, and WebViews.
 
 ---
@@ -15,6 +17,7 @@ Ensure every component is accessible across keyboard, screen readers, touch devi
 Always prefer semantic HTML elements.
 
 Priority:
+
 1. button
 2. a
 3. input
@@ -27,6 +30,7 @@ Priority:
 ## Keyboard Accessibility
 
 All interactive components must:
+
 - Be reachable with Tab
 - Support Enter and Space activation
 - Show visible focus states
@@ -37,6 +41,7 @@ All interactive components must:
 ## Focus Management
 
 Requirements:
+
 - Focus traps inside modals/drawers
 - Focus restoration on close
 - No keyboard traps
@@ -49,6 +54,7 @@ Requirements:
 Dynamic states must expose ARIA attributes.
 
 Examples:
+
 - aria-expanded
 - aria-hidden
 - aria-live
@@ -64,9 +70,11 @@ Never use ARIA when native semantics already solve the problem.
 ## Mobile Accessibility
 
 Touch targets:
+
 - Minimum 44x44px
 
 Avoid:
+
 - Hover-only interactions
 - Tiny clickable areas
 - Gesture-only interactions
@@ -76,6 +84,7 @@ Avoid:
 ## Motion Accessibility
 
 Requirements:
+
 - Respect `prefers-reduced-motion`
 - Avoid parallax-heavy effects
 - Disable non-essential animations
@@ -85,6 +94,7 @@ Requirements:
 ## Color and Contrast
 
 Requirements:
+
 - WCAG AA minimum contrast ratio
 - Text must remain readable in dark mode
 - Never use color as the only information indicator
@@ -94,6 +104,7 @@ Requirements:
 ## Screen Reader Support
 
 Requirements:
+
 - Proper labels
 - Descriptive button text
 - Live regions for async updates
@@ -104,6 +115,7 @@ Requirements:
 ## Forms Accessibility
 
 Rules:
+
 - Inputs require labels
 - Errors must be announced
 - Required fields must be explicit
@@ -114,6 +126,7 @@ Rules:
 ## Modal Accessibility Checklist
 
 Requirements:
+
 - role="dialog"
 - aria-modal="true"
 - Initial focus management
@@ -125,6 +138,7 @@ Requirements:
 ## Testing Requirements
 
 Mandatory testing:
+
 - Keyboard navigation
 - Screen reader validation
 - axe-core integration
@@ -135,6 +149,7 @@ Mandatory testing:
 ## Anti-Patterns
 
 Forbidden:
+
 - Clickable divs
 - Missing focus states
 - Keyboard inaccessible dropdowns

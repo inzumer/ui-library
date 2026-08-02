@@ -1,9 +1,11 @@
 # execution-state-machine.md
 
 ## Role
+
 Deterministic Task Execution Pipeline for UI Component Library
 
 ## Objective
+
 Enforce a strict lifecycle for all engineering tasks to ensure predictability, quality, and architectural consistency.
 
 ---
@@ -23,9 +25,11 @@ No state may be skipped unless one of the approved shortcut workflows defined in
 # STATE 1 — PLAN
 
 ## Responsible Agent
+
 planner-agent
 
 ## Requirements
+
 - Create `/docs/plans/YYYY-MM-DD-task-name.md`
 - Define:
   - scope
@@ -36,6 +40,7 @@ planner-agent
   - testing strategy
 
 ## Exit Criteria
+
 - Plan document exists
 - Scope is approved
 
@@ -44,9 +49,11 @@ planner-agent
 # STATE 2 — VALIDATE
 
 ## Responsible Agent
+
 workflow-orchestrator-agent + repository-governance-agent
 
 ## Requirements
+
 - Validate:
   - plan completeness
   - ADR requirement (if architectural change exists)
@@ -55,6 +62,7 @@ workflow-orchestrator-agent + repository-governance-agent
   - alias compliance
 
 ## Exit Criteria
+
 - No violations in governance rules
 
 ---
@@ -62,9 +70,11 @@ workflow-orchestrator-agent + repository-governance-agent
 # STATE 3 — DESIGN
 
 ## Responsible Agent
+
 architect-agent + a11y-agent + performance-agent
 
 ## Requirements
+
 - Define:
   - component architecture
   - composition model
@@ -73,6 +83,7 @@ architect-agent + a11y-agent + performance-agent
   - atomic design classification
 
 ## Exit Criteria
+
 - Architecture approved
 - A11y approved
 - Performance constraints defined
@@ -82,9 +93,11 @@ architect-agent + a11y-agent + performance-agent
 # STATE 4 — IMPLEMENT
 
 ## Responsible Agent
+
 task-runner-agent
 
 ## Requirements
+
 - Implement component
 - Follow:
   - atomic design structure
@@ -97,6 +110,7 @@ task-runner-agent
   - styles (if needed)
 
 ## Exit Criteria
+
 - Component compiles
 - No lint/type errors
 
@@ -105,9 +119,11 @@ task-runner-agent
 # STATE 5 — TEST
 
 ## Responsible Agent
+
 testing-strategy-agent + task-runner-agent
 
 ## Requirements
+
 - Unit tests (Vitest)
 - Accessibility tests
 - Interaction tests
@@ -115,6 +131,7 @@ testing-strategy-agent + task-runner-agent
 - MSW usage if needed
 
 ## Exit Criteria
+
 - ≥ 80% coverage
 - No failing tests
 - A11y validated
@@ -124,9 +141,11 @@ testing-strategy-agent + task-runner-agent
 # STATE 6 — REVIEW
 
 ## Responsible Agent
+
 architect-agent + a11y-agent + performance-agent
 
 ## Requirements
+
 - Validate:
   - architecture correctness
   - accessibility compliance
@@ -135,6 +154,7 @@ architect-agent + a11y-agent + performance-agent
   - design system alignment
 
 ## Exit Criteria
+
 - All agents approve
 
 ---
@@ -142,9 +162,11 @@ architect-agent + a11y-agent + performance-agent
 # STATE 7 — DOCUMENT
 
 ## Responsible Agent
+
 documentation-agent
 
 ## Requirements
+
 - Update:
   - Storybook stories
   - usage examples
@@ -153,6 +175,7 @@ documentation-agent
 - Ensure clarity and consistency
 
 ## Exit Criteria
+
 - Documentation complete and accurate
 
 ---
@@ -160,9 +183,11 @@ documentation-agent
 # STATE 8 — DONE
 
 ## Responsible Agent
+
 workflow-orchestrator-agent
 
 ## Requirements
+
 - Mark task as complete
 - Ensure:
   - plan exists
@@ -175,18 +200,23 @@ workflow-orchestrator-agent
 # RULES
 
 ## Rule 1 — No skipping states
+
 No implementation without PLAN + VALIDATE.
 
 ## Rule 2 — No direct execution
+
 task-runner-agent cannot start without DESIGN approval.
 
 ## Rule 3 — A11y override
+
 If a11y-agent fails → pipeline resets to DESIGN.
 
 ## Rule 4 — Architecture override
+
 If architect-agent rejects → return to PLAN or DESIGN.
 
 ## Rule 5 — Performance override
+
 If performance constraints are violated → return to IMPLEMENT.
 
 ---
@@ -213,6 +243,7 @@ This system optimizes for:
 - scalable design system evolution
 
 It explicitly rejects:
+
 - ad-hoc implementation
 - skipping planning
 - undocumented changes

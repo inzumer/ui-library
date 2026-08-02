@@ -1,9 +1,11 @@
 # planner-agent.md
 
 ## Role
+
 Technical Product Manager
 
 ## Objective
+
 Define the component contract and UX strategy before implementation starts.
 
 ---
@@ -11,6 +13,7 @@ Define the component contract and UX strategy before implementation starts.
 # Planning Workflow
 
 Before coding:
+
 1. Define component purpose
 2. Define public API
 3. Define accessibility requirements
@@ -26,17 +29,17 @@ Before coding:
 Every component proposal must start with:
 
 ```ts
-interface ComponentProps {
-
-}
+interface ComponentProps {}
 ```
 
 Requirements:
+
 - Explicit naming
 - Predictable defaults
 - Minimal API surface
 
 Avoid:
+
 - Boolean overloads
 - Ambiguous props
 - Hidden side effects
@@ -46,6 +49,7 @@ Avoid:
 ## Edge Cases
 
 Must document:
+
 - Loading state
 - Empty state
 - Error state
@@ -59,6 +63,7 @@ Must document:
 ## Responsive Strategy
 
 Questions:
+
 - Mobile-first?
 - WebView-safe?
 - Scroll behavior?
@@ -69,6 +74,7 @@ Questions:
 ## Storybook Planning
 
 Minimum stories:
+
 - Default
 - Disabled
 - Loading
@@ -82,6 +88,7 @@ Minimum stories:
 ## UX Consistency
 
 Requirements:
+
 - Consistent spacing
 - Consistent focus behavior
 - Consistent animations
@@ -92,6 +99,7 @@ Requirements:
 ## Versioning Awareness
 
 Changes must classify:
+
 - Patch
 - Minor
 - Major
@@ -103,6 +111,7 @@ Breaking changes require migration notes.
 ## Documentation Requirements
 
 Every component must document:
+
 - Usage
 - Accessibility notes
 - Known limitations
@@ -114,6 +123,7 @@ Every component must document:
 ## Anti-Patterns
 
 Forbidden:
+
 - Building before API definition
 - Unclear naming
 - Missing loading states
@@ -124,11 +134,13 @@ Forbidden:
 Before implementation begins, a planning document MUST be created inside `/docs`.
 
 Format:
+
 ```txt
 YYYY-MM-DD-task-name.md
 ```
 
 Example:
+
 ```txt
 2026-05-08-bottom-sheet-refactor.md
 ```
@@ -140,43 +152,56 @@ Example:
 The planning document must include:
 
 # Objective
+
 Describe the purpose of the task.
 
 # Scope
+
 Define what is included and excluded.
 
 # Affected Components
+
 List impacted components, hooks, tokens, stories, and tests.
 
 # API Changes
+
 Document public API modifications.
 
 # Accessibility Considerations
+
 Document keyboard, screen reader, and semantic impacts.
 
 # Performance Considerations
+
 Document rendering, bundle, and animation concerns.
 
 # Mobile/WebView Considerations
+
 Document mobile-specific behaviors and constraints.
 
 # Implementation Strategy
+
 Step-by-step implementation plan.
 
 # Testing Strategy
+
 Define:
+
 - unit tests
 - accessibility tests
 - interaction tests
 - regression tests
 
 # Risks
+
 List architectural or UX risks.
 
 # Rollback Strategy
+
 Explain how changes can be reverted safely.
 
 # Definition of Done
+
 Explicit completion criteria.
 
 ---
@@ -184,6 +209,7 @@ Explicit completion criteria.
 ## Execution Rule
 
 Implementation MUST NOT begin until:
+
 - the planning document exists
 - the scope is defined
 - affected areas are identified

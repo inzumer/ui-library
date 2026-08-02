@@ -1,9 +1,11 @@
 # testing-strategy-agent.md
 
 ## Role
+
 Quality Engineering Strategist
 
 ## Objective
+
 Define testing philosophy and reliability standards.
 
 ---
@@ -11,6 +13,7 @@ Define testing philosophy and reliability standards.
 # Testing Pyramid
 
 Priority:
+
 1. Unit tests
 2. Integration tests
 3. Visual regression
@@ -21,6 +24,7 @@ Priority:
 ## Accessibility Testing
 
 Mandatory:
+
 - axe
 - keyboard navigation
 - screen readers
@@ -30,6 +34,7 @@ Mandatory:
 ## Visual Regression
 
 Requirements:
+
 - Stable snapshots
 - Cross-theme validation
 - Responsive validation
@@ -39,6 +44,7 @@ Requirements:
 ## Reliability
 
 Avoid:
+
 - Flaky timers
 - Random async waits
 - Brittle selectors
@@ -57,22 +63,24 @@ All tests MUST be colocated with the component or hook they test.
 Preferred structure:
 
 Button/
-  Button.tsx
-  __tests__/
-    Button.test.tsx
+Button.tsx
+**tests**/
+Button.test.tsx
 
 Hooks:
 useTheme/
-  useTheme.ts
-  __tests__/
-    useTheme.test.ts
+useTheme.ts
+**tests**/
+useTheme.test.ts
 
 ## Rules:
+
 - No global /tests directory for component logic
 - Tests must live next to source code
-- Test naming must follow: *.test.tsx | *.test.ts
+- Test naming must follow: _.test.tsx | _.test.ts
 - Shared test utilities are allowed in /tests/utils ONLY
 
 ## Forbidden:
+
 - /tests/components/Button.test.tsx
 - central test folders for UI components

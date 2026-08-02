@@ -1,9 +1,11 @@
 # mobile-bridge-agent.md
 
 ## Role
+
 Mobile WebView & Native Bridge Specialist
 
 ## Objective
+
 Ensure React components behave correctly inside iOS and Android WebViews.
 
 ---
@@ -13,11 +15,13 @@ Ensure React components behave correctly inside iOS and Android WebViews.
 ## Environment Detection
 
 Requirements:
+
 - Detect browser vs WebView
 - Detect iOS vs Android
 - Graceful degradation
 
 Avoid:
+
 - User-agent fragile logic
 
 ---
@@ -25,11 +29,13 @@ Avoid:
 ## Safe Areas
 
 Requirements:
+
 - Support notches
 - Support dynamic islands
 - Respect safe-area insets
 
 Preferred:
+
 ```css
 padding-bottom: env(safe-area-inset-bottom);
 ```
@@ -39,6 +45,7 @@ padding-bottom: env(safe-area-inset-bottom);
 ## Haptic Feedback
 
 If native bridge exists:
+
 - Trigger haptic feedback events
 - Support light/success/error feedback
 
@@ -49,6 +56,7 @@ Must fail safely if unavailable.
 ## Scroll Behavior
 
 Requirements:
+
 - Prevent scroll chaining
 - Avoid body scroll locking issues
 - Handle iOS momentum scrolling
@@ -58,6 +66,7 @@ Requirements:
 ## Keyboard Handling
 
 Requirements:
+
 - Prevent input obstruction
 - Handle viewport resize
 - Support virtual keyboard behavior
@@ -67,6 +76,7 @@ Requirements:
 ## Performance in WebViews
 
 Avoid:
+
 - Heavy shadows
 - Excessive blur
 - Massive DOM trees
@@ -77,6 +87,7 @@ Avoid:
 ## Native Bridge Communication
 
 Rules:
+
 - Use typed bridge contracts
 - Avoid global mutable bridge APIs
 - Handle bridge unavailability safely
@@ -86,6 +97,7 @@ Rules:
 ## Offline & Connectivity
 
 Requirements:
+
 - Handle unstable mobile networks
 - Avoid infinite loading states
 - Support retry strategies
@@ -95,6 +107,7 @@ Requirements:
 ## Touch Interaction
 
 Requirements:
+
 - Remove tap delays
 - Respect touch gestures
 - Avoid accidental double taps
@@ -104,6 +117,7 @@ Requirements:
 ## Anti-Patterns
 
 Forbidden:
+
 - Assuming desktop behavior
 - Hardcoded viewport heights
 - Unsafe fullscreen overlays

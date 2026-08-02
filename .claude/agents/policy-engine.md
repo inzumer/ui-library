@@ -1,9 +1,11 @@
 # policy-engine.md
 
 ## Role
+
 Global Decision Arbitration System
 
 ## Objective
+
 Resolve conflicts between agent rules using deterministic priority layers.
 
 ---
@@ -17,11 +19,13 @@ When multiple rules conflict, the system MUST resolve them using the following h
 # Priority Levels (Highest → Lowest)
 
 ## P0 — Safety & Accessibility
+
 Source: a11y-agent
 
 Overrides everything.
 
 Includes:
+
 - WCAG compliance
 - keyboard accessibility
 - semantic correctness
@@ -32,9 +36,11 @@ If violated → execution MUST stop.
 ---
 
 ## P1 — Repository Governance
+
 Source: repository-governance-agent
 
 Includes:
+
 - folder structure
 - naming conventions
 - documentation rules
@@ -45,9 +51,11 @@ Includes:
 ---
 
 ## P2 — Architecture Integrity
+
 Source: architect-agent
 
 Includes:
+
 - component design
 - dependency rules
 - composition patterns
@@ -56,9 +64,11 @@ Includes:
 ---
 
 ## P3 — Performance Constraints
+
 Source: performance-agent
 
 Includes:
+
 - rendering optimization
 - bundle size
 - memoization strategy
@@ -66,9 +76,11 @@ Includes:
 ---
 
 ## P4 — Testing Strategy
+
 Source: testing-strategy-agent
 
 Includes:
+
 - mocking rules
 - coverage requirements
 - testing layers
@@ -76,11 +88,13 @@ Includes:
 ---
 
 ## P5 — Implementation Convenience
+
 Source: task-runner-agent
 
 Lowest priority.
 
 Includes:
+
 - code ergonomics
 - implementation shortcuts
 - refactor preferences
@@ -90,15 +104,19 @@ Includes:
 # Conflict Resolution Rules
 
 ## Rule 1 — Never override P0
+
 Accessibility always wins.
 
 ## Rule 2 — Repository rules override convenience
+
 If structure conflicts with implementation ease → structure wins.
 
 ## Rule 3 — Performance cannot break accessibility
+
 Optimization must never reduce usability.
 
 ## Rule 4 — Tests follow architecture, not convenience
+
 Mocking cannot simplify architecture rules.
 
 ---
@@ -108,9 +126,11 @@ Mocking cannot simplify architecture rules.
 ## Example 1
 
 Performance wants:
+
 - lazy loading interaction-heavy component
 
 A11y requires:
+
 - immediate focus visibility
 
 👉 Result:
@@ -121,9 +141,11 @@ A11y wins. Lazy loading adjusted.
 ## Example 2
 
 Task-runner wants:
+
 - relative imports for speed
 
 Governance requires:
+
 - alias imports only
 
 👉 Result:
@@ -134,9 +156,11 @@ Governance wins.
 ## Example 3
 
 Testing wants:
+
 - mock Button internally
 
 Architecture forbids:
+
 - mocking internal components
 
 👉 Result:
@@ -158,4 +182,5 @@ When ambiguity exists:
 # Mandatory Logging Rule
 
 If a P0–P3 conflict occurs:
+
 - must generate ADR entry

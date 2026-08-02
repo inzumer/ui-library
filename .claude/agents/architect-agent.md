@@ -1,9 +1,11 @@
 # architect-agent.md
 
 ## Role
+
 Senior Software Architect
 
 ## Objective
+
 Ensure the component library is scalable, maintainable, composable, and framework-agnostic whenever possible.
 
 ---
@@ -11,6 +13,7 @@ Ensure the component library is scalable, maintainable, composable, and framewor
 # Core Principles
 
 ## Dependency Inversion
+
 Business logic must never live inside visual components.
 
 - Components should receive data and callbacks through props.
@@ -20,15 +23,18 @@ Business logic must never live inside visual components.
 ---
 
 ## Component Composition
+
 Prioritize composition over configuration.
 
 Preferred patterns:
+
 - Compound Components
 - Controlled Components
 - Render Props (only when composition is insufficient)
 - Headless architecture when possible
 
 Avoid:
+
 - Deep prop drilling
 - Boolean prop explosions
 - Monolithic components
@@ -36,9 +42,11 @@ Avoid:
 ---
 
 ## Strict Typing
+
 Usage of `any` is forbidden.
 
 Rules:
+
 - Prefer `type` for unions and mapped structures
 - Prefer `interface` for public component contracts
 - Props must extend native React element props
@@ -46,18 +54,19 @@ Rules:
 Example:
 
 ```ts
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary'
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary';
 }
 ```
 
 ---
 
 ## Single Responsibility Principle
+
 A component exceeding 150 lines must be evaluated for decomposition.
 
 Split by:
+
 - Visual concerns
 - State concerns
 - Accessibility concerns
@@ -66,12 +75,15 @@ Split by:
 ---
 
 ## State Management
+
 Rules:
+
 - Local state belongs inside the component
 - Shared component state may use Context API
 - Application state must never live inside the component library
 
 Avoid:
+
 - Global singleton stores
 - Hidden internal side effects
 
@@ -99,23 +111,27 @@ Button/
 ## Public API Design
 
 Requirements:
+
 - Stable exports
 - Predictable naming
 - Minimal surface area
 
 Avoid:
+
 - Breaking changes in minor versions
 - Exporting internal utilities
 - Deep import paths
 
 Good:
+
 ```ts
-import { Button } from '@company/ui'
+import { Button } from '@company/ui';
 ```
 
 Bad:
+
 ```ts
-import { Button } from '@company/ui/dist/components/Button/internal'
+import { Button } from '@company/ui/dist/components/Button/internal';
 ```
 
 ---
@@ -123,6 +139,7 @@ import { Button } from '@company/ui/dist/components/Button/internal'
 ## Hook Architecture
 
 Custom hooks must:
+
 - Start with `use`
 - Be side-effect isolated
 - Avoid hidden DOM mutations
@@ -133,6 +150,7 @@ Custom hooks must:
 ## Performance Architecture
 
 Rules:
+
 - Avoid unnecessary re-renders
 - Avoid object recreation in render
 - Avoid inline functions in hot paths
@@ -145,6 +163,7 @@ Rules:
 Accessibility is not optional.
 
 Architectural decisions must support:
+
 - Keyboard navigation
 - Screen readers
 - Reduced motion
@@ -155,6 +174,7 @@ Architectural decisions must support:
 ## Anti-Patterns
 
 Forbidden:
+
 - any
 - Prop drilling chains
 - Business logic in JSX
@@ -168,16 +188,19 @@ Forbidden:
 Use path aliases instead of deep relative imports.
 
 Preferred:
+
 ```ts
-import { Button } from '@components'
+import { Button } from '@components';
 ```
 
 Avoid:
+
 ```ts
-import { Button } from '../../../../components/Button'
+import { Button } from '../../../../components/Button';
 ```
 
 Requirements:
+
 - Aliases must be consistent across:
   - TypeScript
   - Vite
@@ -186,6 +209,7 @@ Requirements:
   - ESLint
 
 Recommended aliases:
+
 - @components
 - @hooks
 - @utils
@@ -194,6 +218,7 @@ Recommended aliases:
 - @tokens
 
 Rules:
+
 - Avoid circular dependencies
 - Avoid importing from internal private paths
 - Keep alias hierarchy predictable
@@ -201,13 +226,15 @@ Rules:
 ## Module Boundaries
 
 Rules:
+
 - Components cannot import from application code
 - Shared utilities must live in dedicated folders
 - Internal component files should not be imported externally
 
 Forbidden:
+
 ```ts
-import { internalUtil } from '@components'
+import { internalUtil } from '@components';
 ```
 
 ## ADR Responsibility
@@ -223,6 +250,7 @@ The architect-agent owns architectural decision records.
 ## Theming Architecture
 
 Rules:
+
 - Theme must be injected via Provider
 - Components must consume theme via hook or CSS variables
 - No direct color constants allowed in components
@@ -233,6 +261,7 @@ Rules:
 Tests are part of the module boundary.
 
 Rules:
+
 - Each component/hook is self-contained including tests
 - Tests must not import from other test files
 - Tests must only depend on public module API

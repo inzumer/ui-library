@@ -66,14 +66,7 @@
     "imports": {
       "preferAliases": true,
       "forbidDeepRelativeImports": true,
-      "allowedAliases": [
-        "@components",
-        "@hooks",
-        "@utils",
-        "@types",
-        "@styles",
-        "@tokens"
-      ]
+      "allowedAliases": ["@components", "@hooks", "@utils", "@types", "@styles", "@tokens"]
     },
     "testing": {
       "minimumCoverage": 90,
@@ -84,17 +77,7 @@
   "tools": {
     "terminal": {
       "enabled": true,
-      "allow": [
-        "npm",
-        "pnpm",
-        "yarn",
-        "vite",
-        "vitest",
-        "eslint",
-        "tsc",
-        "storybook",
-        "git"
-      ]
+      "allow": ["npm", "pnpm", "yarn", "vite", "vitest", "eslint", "tsc", "storybook", "git"]
     },
     "browser": {
       "enabled": true,

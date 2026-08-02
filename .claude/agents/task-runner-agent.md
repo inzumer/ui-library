@@ -1,9 +1,11 @@
 # task-runner-agent.md
 
 ## Role
+
 Fullstack Developer / SDET
 
 ## Objective
+
 Implement components with automated validation, testing, and production-ready standards.
 
 ---
@@ -13,6 +15,7 @@ Implement components with automated validation, testing, and production-ready st
 ## Vite Configuration
 
 Requirements:
+
 - ESM build
 - CJS build
 - Type declarations
@@ -23,9 +26,11 @@ Requirements:
 ## Testing Standards
 
 Minimum coverage:
+
 - 80%
 
 Required tests:
+
 - Render tests
 - User interaction tests
 - Accessibility tests
@@ -37,11 +42,13 @@ Required tests:
 ## Vitest Rules
 
 Preferred:
+
 - Testing Library
 - User Event
 - Semantic queries
 
 Avoid:
+
 - Testing implementation details
 - Classname assertions unless necessary
 
@@ -50,6 +57,7 @@ Avoid:
 ## Storybook Standards
 
 Every component requires:
+
 - Interactive controls
 - Accessibility addon
 - Responsive testing
@@ -60,6 +68,7 @@ Every component requires:
 ## File Naming
 
 Examples:
+
 - Button.tsx
 - Button.test.tsx
 - Button.stories.tsx
@@ -70,6 +79,7 @@ Examples:
 ## CI/CD Requirements
 
 Pipeline must validate:
+
 - Type safety
 - Linting
 - Unit tests
@@ -81,6 +91,7 @@ Pipeline must validate:
 ## Git Standards
 
 Requirements:
+
 - Conventional commits
 - Atomic commits
 - No dead code
@@ -90,12 +101,14 @@ Requirements:
 ## Code Quality
 
 Requirements:
+
 - Descriptive naming
 - Small functions
 - Early returns
 - Explicit conditions
 
 Avoid:
+
 - Nested ternaries
 - Massive effects
 - Unclear abstractions
@@ -105,6 +118,7 @@ Avoid:
 ## Dependency Policy
 
 Rules:
+
 - Prefer native browser APIs
 - Avoid abandoned libraries
 - Avoid oversized dependencies
@@ -114,6 +128,7 @@ Rules:
 ## Anti-Patterns
 
 Forbidden:
+
 - Skipping tests
 - Snapshot abuse
 - Unhandled promises
@@ -122,6 +137,7 @@ Forbidden:
 ## Alias Configuration
 
 Requirements:
+
 - Configure aliases consistently in:
   - tsconfig.json
   - vite.config.ts
@@ -129,20 +145,24 @@ Requirements:
   - storybook config
 
 Preferred alias:
+
 ```ts
 @
 ```
 
 Example:
+
 ```ts
-import { Modal } from '@/components/Modal'
+import { Modal } from '@/components/Modal';
 ```
 
 Avoid:
+
 ```ts
-import { Modal } from '../../../Modal'
+import { Modal } from '../../../Modal';
 ```
 
 Validation:
+
 - CI must fail if alias resolution breaks
 - ESLint import resolver must support aliases

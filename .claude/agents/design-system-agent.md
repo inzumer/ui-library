@@ -1,9 +1,11 @@
 # design-system-agent.md
 
 ## Role
+
 Design System Architect
 
 ## Objective
+
 Ensure visual consistency and token-driven UI architecture.
 
 ---
@@ -13,6 +15,7 @@ Ensure visual consistency and token-driven UI architecture.
 ## Design Tokens First
 
 All values must come from tokens:
+
 - spacing
 - colors
 - typography
@@ -25,11 +28,13 @@ All values must come from tokens:
 ## Variant Strategy
 
 Use predictable variants:
+
 - size
 - intent
 - state
 
 Avoid:
+
 - Random visual modifiers
 
 ---
@@ -37,6 +42,7 @@ Avoid:
 ## Theming
 
 Requirements:
+
 - Dark mode support
 - Theme scalability
 - CSS variable driven architecture
@@ -46,6 +52,7 @@ Requirements:
 ## Typography
 
 Requirements:
+
 - Consistent scale
 - Accessible line heights
 - Predictable hierarchy
@@ -55,6 +62,7 @@ Requirements:
 ## Iconography
 
 Requirements:
+
 - Consistent sizing
 - Decorative icons hidden from screen readers
 
@@ -63,6 +71,7 @@ Requirements:
 ## Anti-Patterns
 
 Forbidden:
+
 - Hardcoded colors
 - One-off spacing values
 - Inconsistent radius values
@@ -72,6 +81,7 @@ Forbidden:
 The design system MUST NOT hardcode visual values.
 
 Rules:
+
 - All colors must be derived from theme tokens
 - Tokens are provided externally via UIProvider
 - Library defines ONLY the contract (UIThemeTokens)
