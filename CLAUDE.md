@@ -33,9 +33,17 @@ Breaking changes: append `!` before the colon (e.g. `feat(api)!: ...`) and/or ad
 
 Scope is optional but encouraged when a change is package- or area-specific, e.g. `feat(ui): ...`, `fix(tokens): ...`, `docs(storybook): ...`.
 
+## Pull requests
+
+Every PR must use [.github/PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md) filled out in full, not left as the blank scaffold. When a task is executed end-to-end here (component/hook/util creation or maintenance, bug fixes, docs), the resulting PR description is where that work gets reviewed later, so:
+
+- Describe what changed and why, not just what files moved.
+- Check off the template's checklist items only once they're actually true (validation commands run, changeset added if a published package changed, stories/README/docs updated for component or hook changes).
+- Leave a clear trail in "Notas adicionales" for any non-obvious decision — the same bar as an inline comment: only worth writing if it wouldn't be obvious from reading the diff.
+
 ## Releases
 
-Versioning and publishing go through [Changesets](https://github.com/changesets/changesets). Any change to a published package (`@inzumer/ui-library`, `@inzumer/tokens`, or the shared tooling packages) should come with a changeset: run `pnpm changeset` and describe the change.
+Versioning and publishing go through [Changesets](https://github.com/changesets/changesets). Any change to a published package (`@inzumer/ui-library` or `@inzumer/tokens`) should come with a changeset: run `pnpm changeset` and describe the change. The shared tooling packages (`eslint-config`, `prettier-config`, `tsconfig`) are `private: true` and are not published.
 
 `.github/workflows/release.yml` runs on every push to `main`:
 

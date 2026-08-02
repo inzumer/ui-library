@@ -176,6 +176,12 @@ Then:
 
 ---
 
+# Pull Requests
+
+Every PR uses `.github/PULL_REQUEST_TEMPLATE.md`, filled out completely (not left blank). Commit messages and PR titles follow Conventional Commits — see `CLAUDE.md` for the exact rules, since that is the single source of truth and this file must not restate or drift from it. Any change to a published package (`@inzumer/ui-library`, `@inzumer/tokens`) needs a changeset (`pnpm changeset`) before the PR is opened.
+
+---
+
 # Ownership Rules
 
 ## planner-agent
