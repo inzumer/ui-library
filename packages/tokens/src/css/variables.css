@@ -1,5 +1,5 @@
 /**
- * @cysur/tokens — CSS Custom Properties
+ * @inzumer/tokens — CSS Custom Properties
  * Generated from base tokens. Consumed via Tailwind preset and semantic tokens.
  * Values are raw RGB channels (no `rgb()` wrapper) for alpha compositing support.
  */
@@ -80,6 +80,7 @@
   --surface-secondary: rgb(var(--color-neutral-100));
   --surface-tertiary: rgb(var(--color-neutral-200));
   --surface-inverse: rgb(var(--color-neutral-900));
+  --surface-overlay: rgba(0 0 0 / 0.5);
 
   --text-primary: rgb(var(--color-neutral-900));
   --text-secondary: rgb(var(--color-neutral-600));
@@ -94,7 +95,6 @@
   --border-strong: rgb(var(--color-neutral-400));
   --border-focus: rgb(var(--color-primary-500));
   --border-error: rgb(var(--color-danger-500));
-}
 
   /* Button semantic vars */
   --btn-primary-bg: rgb(var(--color-primary-600));
@@ -135,6 +135,7 @@
   --surface-secondary: rgb(var(--color-neutral-900));
   --surface-tertiary: rgb(var(--color-neutral-800));
   --surface-inverse: rgb(var(--color-neutral-50));
+  --surface-overlay: rgba(0 0 0 / 0.7);
 
   --text-primary: rgb(var(--color-neutral-50));
   --text-secondary: rgb(var(--color-neutral-300));

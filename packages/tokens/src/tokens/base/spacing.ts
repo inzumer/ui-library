@@ -1,4 +1,4 @@
-import type { BaseSpacing } from '../../types/theme.js'
+import type { BaseSpacing } from '@theme-types/theme.js';
 
 export const baseSpacing: BaseSpacing = {
   px: '1px',
@@ -34,4 +34,4 @@ export const baseSpacing: BaseSpacing = {
   72: '18rem',
   80: '20rem',
   96: '24rem',
-}
+};

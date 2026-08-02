@@ -1,21 +1,24 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
-import { baseColors } from '../tokens/base/colors.js'
-import { baseRadius } from '../tokens/base/radius.js'
-import { baseSpacing } from '../tokens/base/spacing.js'
-import { baseTypography } from '../tokens/base/typography.js'
+// Relative imports on purpose: this file is loaded via jiti by Tailwind's
+// config resolution (see root tailwind.config.ts), which doesn't understand
+// our tsconfig path aliases.
+import { baseColors } from '../tokens/base/colors.js';
+import { baseRadius } from '../tokens/base/radius.js';
+import { baseSpacing } from '../tokens/base/spacing.js';
+import { baseTypography } from '../tokens/base/typography.js';
 
-type ColorScale = Record<string, string>
-type ColorMap = Record<string, ColorScale | string>
+type ColorScale = Record<string, string>;
+type ColorMap = Record<string, ColorScale | string>;
 
 function buildTailwindColors(): ColorMap {
-  const result: ColorMap = {}
+  const result: ColorMap = {};
 
   for (const [colorName, scale] of Object.entries(baseColors)) {
-    result[colorName] = {} as ColorScale
+    result[colorName] = {} as ColorScale;
     for (const step of Object.keys(scale as Record<string, string>)) {
-      ;(result[colorName] as ColorScale)[step] =
-        `rgb(var(--color-${colorName}-${step}) / <alpha-value>)`
+      (result[colorName] as ColorScale)[step] =
+        `rgb(var(--color-${colorName}-${step}) / <alpha-value>)`;
     }
   }
 
@@ -24,7 +27,7 @@ function buildTailwindColors(): ColorMap {
     secondary: 'var(--surface-secondary)',
     tertiary: 'var(--surface-tertiary)',
     inverse: 'var(--surface-inverse)',
-  }
+  };
 
   result['text-color'] = {
     primary: 'var(--text-primary)',
@@ -33,7 +36,7 @@ function buildTailwindColors(): ColorMap {
     disabled: 'var(--text-disabled)',
     inverse: 'var(--text-inverse)',
     link: 'var(--text-link)',
-  }
+  };
 
   result['border-color'] = {
     DEFAULT: 'var(--border-default)',
@@ -41,12 +44,12 @@ function buildTailwindColors(): ColorMap {
     strong: 'var(--border-strong)',
     focus: 'var(--border-focus)',
     error: 'var(--border-error)',
-  }
+  };
 
-  return result
+  return result;
 }
 
-const cysurPreset: Config = {
+const DefaultPreset: Config = {
   content: [],
   darkMode: ['selector', '[data-color-scheme="dark"]'],
   theme: {
@@ -66,7 +69,6 @@ const cysurPreset: Config = {
     },
   },
   plugins: [],
-}
+};
 
-export default cysurPreset
-export { cysurPreset }
+export { DefaultPreset };

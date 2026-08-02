@@ -1,4 +1,4 @@
-import type { SemanticTokens } from '../../types/theme.js'
+import type { SemanticTokens } from '@theme-types/theme.js';
 
 export const lightSemanticTokens: SemanticTokens = {
   surface: {
@@ -62,7 +62,7 @@ export const lightSemanticTokens: SemanticTokens = {
     text: 'var(--color-neutral-900)',
     placeholder: 'var(--color-neutral-400)',
   },
-}
+};
 
 export const darkSemanticTokens: SemanticTokens = {
   surface: {
@@ -126,4 +126,4 @@ export const darkSemanticTokens: SemanticTokens = {
     text: 'var(--color-neutral-50)',
     placeholder: 'var(--color-neutral-500)',
   },
-}
+};

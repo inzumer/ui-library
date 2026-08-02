@@ -1,4 +1,4 @@
-import type { BaseColors } from '../../types/theme.js'
+import type { BaseColors } from '@theme-types/theme.js';
 
 export const baseColors: BaseColors = {
   primary: {
@@ -71,4 +71,4 @@ export const baseColors: BaseColors = {
     800: '7 89 133',
     900: '12 74 110',
   },
-}
+};

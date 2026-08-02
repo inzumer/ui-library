@@ -1,9 +1,15 @@
 {
-  "extends": "@cysur/tsconfig/react-library",
+  "extends": "@inzumer/tsconfig/react-library",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "."
+    "paths": {
+      "@/*": ["./src/*"],
+      "@themes/*": ["./src/themes/*"],
+      "@tokens/*": ["./src/tokens/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@theme-types/*": ["./src/types/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

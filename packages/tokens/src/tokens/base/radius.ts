@@ -1,4 +1,4 @@
-import type { BaseRadius } from '../../types/theme.js'
+import type { BaseRadius } from '@theme-types/theme.js';
 
 export const baseRadius: BaseRadius = {
   none: '0px',
@@ -9,4 +9,4 @@ export const baseRadius: BaseRadius = {
   '2xl': '1rem',
   '3xl': '1.5rem',
   full: '9999px',
-}
+};

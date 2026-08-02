@@ -1,14 +1,33 @@
 {
-  "name": "@cysur/tokens",
+  "name": "@inzumer/tokens",
   "version": "0.1.0",
   "private": false,
-  "description": "Design tokens, theming, and Tailwind preset for the Cysur design system",
+  "description": "Design tokens, theming, and Tailwind preset for the Inzumer design system",
   "license": "MIT",
+  "author": "Nahuel Zamuner <inzumer@gmail.com>",
+  "homepage": "https://github.com/inzumer/ui-library/tree/main/packages/tokens#readme",
+  "bugs": {
+    "url": "https://github.com/inzumer/ui-library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inzumer/ui-library.git",
+    "directory": "packages/tokens"
+  },
+  "keywords": [
+    "design-tokens",
+    "design-system",
+    "tailwindcss",
+    "theming",
+    "css-variables"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "type": "module",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -28,22 +47,26 @@
   ],
   "scripts": {
     "build": "tsup && pnpm run build:css",
-    "build:css": "cp src/css/*.css dist/css/",
+    "build:css": "node -e \"require('fs').cpSync('src/css','dist/css',{recursive:true})\"",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "clean": "rm -rf dist"
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint src",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "peerDependencies": {
     "react": ">=18 || ^19",
     "react-dom": ">=18 || ^19"
   },
   "devDependencies": {
-    "@cysur/tsconfig": "workspace:*",
+    "@inzumer/eslint-config": "workspace:*",
+    "@inzumer/tsconfig": "workspace:*",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "eslint": "^9.39.5",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^2.1.6"
   }
 }

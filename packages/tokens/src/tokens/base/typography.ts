@@ -1,4 +1,4 @@
-import type { BaseTypography } from '../../types/theme.js'
+import type { BaseTypography } from '@theme-types/theme.js';
 
 export const baseTypography: BaseTypography = {
   fonts: {
@@ -45,4 +45,4 @@ export const baseTypography: BaseTypography = {
     wider: '0.05em',
     widest: '0.1em',
   },
-}
+};
