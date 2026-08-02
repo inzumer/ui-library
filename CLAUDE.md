@@ -17,18 +17,29 @@ Format: `<type>[optional scope]: <description>`
 Allowed types:
 
 | Type       | Use for                                  |
-| ---------- | ----------------------------------------- |
-| `feat`     | New functionality (semver minor)          |
-| `fix`      | Bug fix (semver patch)                    |
-| `chore`    | Maintenance, dependencies, routine tasks  |
-| `refactor` | Code change with no functional impact     |
-| `docs`     | Documentation only                        |
-| `test`     | Adding or fixing tests                    |
-| `style`    | Formatting/whitespace, no logic change    |
-| `perf`     | Performance improvements                  |
-| `ci`       | CI configuration                          |
-| `build`    | Build system / tooling                    |
+| ---------- | ---------------------------------------- |
+| `feat`     | New functionality (semver minor)         |
+| `fix`      | Bug fix (semver patch)                   |
+| `chore`    | Maintenance, dependencies, routine tasks |
+| `refactor` | Code change with no functional impact    |
+| `docs`     | Documentation only                       |
+| `test`     | Adding or fixing tests                   |
+| `style`    | Formatting/whitespace, no logic change   |
+| `perf`     | Performance improvements                 |
+| `ci`       | CI configuration                         |
+| `build`    | Build system / tooling                   |
 
 Breaking changes: append `!` before the colon (e.g. `feat(api)!: ...`) and/or add a `BREAKING CHANGE:` footer explaining the break.
 
 Scope is optional but encouraged when a change is package- or area-specific, e.g. `feat(ui): ...`, `fix(tokens): ...`, `docs(storybook): ...`.
+
+## Releases
+
+Versioning and publishing go through [Changesets](https://github.com/changesets/changesets). Any change to a published package (`@inzumer/ui-library`, `@inzumer/tokens`, or the shared tooling packages) should come with a changeset: run `pnpm changeset` and describe the change.
+
+`.github/workflows/release.yml` runs on every push to `main`:
+
+- If there are unreleased changesets, it opens/updates a "Version Packages" PR that bumps versions and updates CHANGELOGs (`changeset version`).
+- When that PR is merged (no changesets left pending), the same workflow publishes the bumped packages to npm (`changeset publish`).
+
+Publishing requires an `NPM_TOKEN` repo secret (an npm automation token) with publish rights for the `@inzumer` scope.
