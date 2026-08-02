@@ -1,33 +1,90 @@
-import type { Preview, Decorator } from '@storybook/react'
-import { withThemeByClassName } from '@storybook/addon-themes'
-import '../src/styles/globals.css'
+import type { Decorator, Preview } from '@storybook/react';
 
-// Only apply background wrapper in canvas (story) mode, not in docs mode.
-// In docs mode Storybook controls the layout — wrapping breaks the iframe height.
-const withDarkBackground: Decorator = (Story, context) => {
-  if (context.viewMode === 'docs') return <Story />
-  const isDark = (context.globals['theme'] as string) === 'dark'
+import '../packages/ui/src/styles/globals.css';
+import './brand-themes.css';
+
+const withThemeWrapper: Decorator = (Story, context) => {
+  if (context.viewMode === 'docs') {
+    return <Story />;
+  }
+  const { colorScheme, brandTheme } = context.globals;
   return (
-    <div className={isDark ? 'bg-neutral-900 min-h-screen p-8' : 'bg-white min-h-screen p-8'}>
+    <div
+      data-color-scheme={colorScheme}
+      data-brand-theme={brandTheme}
+      style={{
+        minHeight: '100vh',
+        padding: '2rem',
+        backgroundColor: 'var(--surface-primary)',
+        color: 'var(--text-primary)',
+      }}
+    >
       <Story />
     </div>
-  )
-}
+  );
+};
 
 const preview: Preview = {
-  decorators: [
-    withThemeByClassName({
-      themes: {
-        light: '',
-        dark: 'dark',
+  globalTypes: {
+    colorScheme: {
+      name: 'Color scheme',
+      description: 'Light or dark mode',
+      toolbar: {
+        icon: 'circlehollow',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
+        ],
+        dynamicTitle: true,
       },
-      defaultTheme: 'light',
-    }),
-    withDarkBackground,
-  ],
+    },
+    brandTheme: {
+      name: 'Brand theme',
+      description: 'Preview components with a consumer repo palette',
+      toolbar: {
+        icon: 'paintbrush',
+        items: [
+          { value: 'default', title: 'Default (Inzumer UI)' },
+          { value: 'inzumer', title: 'Inzumer' },
+          { value: 'zamuner', title: 'Zamuner' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    colorScheme: 'light',
+    brandTheme: 'default',
+  },
+  decorators: [withThemeWrapper],
   parameters: {
     docs: {
       toc: true,
+    },
+    options: {
+      storySort: {
+        order: [
+          'Documentation',
+          [
+            'Introduction',
+            'Installation',
+            'Tech Stack',
+            'Components',
+            'Hooks',
+            'Design Tokens',
+            'Theming',
+            'Overriding Styles',
+            'Import Aliases',
+            'Testing And Coverage',
+            'Consuming The Library',
+            'Claude Agents',
+          ],
+          'Atoms',
+          'Molecules',
+          'Organisms',
+          'Templates',
+        ],
+      },
     },
     controls: {
       matchers: {
@@ -50,6 +107,6 @@ const preview: Preview = {
       },
     },
   },
-}
+};
 
-export default preview
+export default preview;

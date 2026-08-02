@@ -1,0 +1,83 @@
+/* Inzumer Brand Theme */
+[data-brand-theme='inzumer'] {
+  --surface-primary: #151515;
+  --surface-secondary: #262626;
+  --surface-tertiary: #525252;
+  --surface-inverse: #f8f8f8;
+
+  --text-primary: #f8f8f8;
+  --text-secondary: #a8a8a8;
+  --text-tertiary: #8d8d8d;
+  --text-disabled: #525252;
+  --text-inverse: #151515;
+  --text-link: #4361ee;
+  --text-link-hover: #3f37c9;
+
+  --border-default: #262626;
+  --border-muted: #0f171b;
+  --border-strong: #525252;
+  --border-focus: #7209b7;
+
+  --btn-primary-bg: #7209b7;
+  --btn-primary-bg-hover: #560bad;
+  --btn-primary-bg-active: #480ca8;
+  --btn-primary-text: #ffffff;
+
+  --btn-secondary-bg: #4361ee;
+  --btn-secondary-bg-hover: #3f37c9;
+  --btn-secondary-bg-active: #3a0ca3;
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-border: transparent;
+
+  --btn-ghost-bg-hover: #262626;
+  --btn-ghost-bg-active: #0f171b;
+  --btn-ghost-text: #b5179e;
+
+  --input-bg: #262626;
+  --input-border: #525252;
+  --input-border-focus: #7209b7;
+  --input-text: #f8f8f8;
+  --input-placeholder: #8d8d8d;
+}
+
+/* Zamuner Brand Theme */
+[data-brand-theme='zamuner'] {
+  --surface-primary: #ece5d8;
+  --surface-secondary: #f5f1eb;
+  --surface-tertiary: #ffffff;
+  --surface-inverse: #292929;
+
+  --text-primary: #4d453d;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-disabled: #c0c0c0;
+  --text-inverse: #f5f1eb;
+  --text-link: #909986;
+  --text-link-hover: #7b856d;
+
+  --border-default: #c0c0c0;
+  --border-muted: #ece5d8;
+  --border-strong: #999999;
+  --border-focus: #a69584;
+
+  --btn-primary-bg: #a69584;
+  --btn-primary-bg-hover: #8e7d6f;
+  --btn-primary-bg-active: #4d453d;
+  --btn-primary-text: #ffffff;
+
+  --btn-secondary-bg: #909986;
+  --btn-secondary-bg-hover: #7b856d;
+  --btn-secondary-bg-active: #4d453d;
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-border: transparent;
+
+  --btn-ghost-bg-hover: #f5f1eb;
+  --btn-ghost-bg-active: #ece5d8;
+  --btn-ghost-text: #a69584;
+
+  --input-bg: #ffffff;
+  --input-border: #c0c0c0;
+  --input-border-focus: #a69584;
+  --input-text: #4d453d;
+  --input-placeholder: #999999;
+}
