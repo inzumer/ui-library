@@ -4,7 +4,7 @@ Guidance for Claude Code (and any other AI coding agent) working in this reposit
 
 ## Project
 
-`@inzumer/ui-library` monorepo (pnpm workspaces + Turborepo): `packages/ui` (component library), `packages/tokens` (design tokens/theming), plus shared `eslint-config`/`prettier-config`/`tsconfig` packages. See [README.md](./README.md) and [docs/guide](./docs/guide) for conventions on components, hooks, utils, and imports.
+`@inzumer/ui-library` monorepo (pnpm workspaces + Turborepo): `packages/ui` (component library), `packages/tokens` (design tokens/theming), plus shared `eslint-config`/`prettier-config`/`tsconfig` packages. See [README.md](./README.md) and [docs](./docs) for conventions on components, hooks, utils, and imports.
 
 Key commands: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm test:coverage` (90% gate), `pnpm build`, `pnpm build-storybook`.
 

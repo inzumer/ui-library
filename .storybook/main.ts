@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
-  stories: ['../packages/ui/src/**/*.stories.@(ts|tsx)', '../docs/guide/**/*.mdx'],
+  stories: ['../packages/ui/src/**/*.stories.@(ts|tsx)', '../docs/**/*.mdx'],
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-actions',
