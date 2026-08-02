@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Overriding Styles" />
+
+# Overriding Tokens & Styles
+
+Three ways to change how components look in a consumer app, from simplest/most-static to
+most-dynamic. Pick the first one that fits — don't reach for the provider just to change a color.
+
+## 1. Plain CSS (recommended default)
+
+Every value components read is a CSS custom property, and custom properties cascade normally. Import
+`@inzumer/tokens/css/variables` first, then redefine whatever you want **after** it:
+
+```css
+@import '@inzumer/tokens/css/variables';
+
+:root {
+  --color-primary-500: 220 38 38; /* switch the brand's primary color */
+  --btn-primary-bg: rgb(var(--color-primary-600));
+}
+
+[data-color-scheme='dark'] {
+  --btn-primary-bg: rgb(var(--color-primary-500));
+}
+```
+
+This works with **zero JavaScript**, applies at build time (no runtime cost), and is exactly the
+mechanism `.storybook/brand-themes.css` uses to preview the `inzumer`/`zamuner` palettes — see
+[Theming](/docs/documentation-theming--docs). Override individual semantic variables (`--btn-primary-bg`)
+directly if you only want to change one role, or the base color scale (`--color-primary-*`) if you
+want every semantic role that derives from it to update together.
+
+## 2. Extend the Tailwind preset
+
+If you're already composing your own Tailwind config, layer your own tokens on top of
+`DefaultPreset` the normal Tailwind way:
+
+```ts
+import type { Config } from 'tailwindcss';
+
+import { DefaultPreset } from '@inzumer/tokens/tailwind';
+
+export default {
+  presets: [DefaultPreset],
+  theme: {
+    extend: {
+      colors: {
+        primary: { 500: 'rgb(220 38 38 / <alpha-value>)' },
+      },
+    },
+  },
+  content: ['./src/**/*.{ts,tsx}'],
+} satisfies Config;
+```
+
+This only affects Tailwind utility classes generated for **your own code** — it does not change the
+compiled `@inzumer/ui-library` components, which already shipped with their classes referencing the
+CSS variables from option 1. Use this for your own app code that wants the same palette, not to
+restyle the library's components — use option 1 or 3 for that.
+
+## 3. Runtime overrides via `InzumerProvider`
+
+For values that need to change after the page has loaded (a theme picker, a per-tenant palette loaded
+from an API, ...), use the provider:
+
+```tsx
+<InzumerProvider theme={{ colors: { primary: { 500: '220 38 38' } } }}>
+  <App />
+</InzumerProvider>
+```
+
+Read [Theming](/docs/documentation-theming--docs) first — there's an important caveat about how
+`theme.semantic` overrides are injected (sparsely, not as a full replacement) specifically so they
+don't break dark mode.
+
+## What you can't safely override
+
+- **`--border-error` / danger-scale colors** are treated as a system-level semantic (errors/destructive
+  actions), not brand-specific — neither reference brand theme in this repo overrides them, and
+  we'd recommend the same for consumer apps unless there's a specific reason to.
+- Component **structure/markup** isn't themeable — `Button` always renders a `<button>`, `Card` always
+  renders the same DOM shape. If you need a different structure, compose the primitives
+  (`CardHeader`/`CardContent`/...) differently rather than overriding internals.

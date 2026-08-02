@@ -1,0 +1,116 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Consuming The Library" />
+
+# Consuming The Library
+
+This page covers using `@inzumer/ui-library` **from another repository** (e.g. the `inzumer` or
+`zamuner` Next.js sites). For working on the library itself, see
+[Installation](/docs/documentation-installation--docs).
+
+## Once published to npm
+
+```bash
+pnpm add @inzumer/ui-library @inzumer/tokens react react-dom class-variance-authority clsx tailwind-merge
+```
+
+```tsx
+// e.g. src/app/layout.tsx in a Next.js app
+import '@inzumer/tokens/css/reset';
+import '@inzumer/tokens/css/variables';
+import '@inzumer/tokens/css/typography';
+```
+
+```ts
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+import { DefaultPreset } from '@inzumer/tokens/tailwind';
+
+export default {
+  presets: [DefaultPreset],
+  content: ['./src/**/*.{ts,tsx}'],
+} satisfies Config;
+```
+
+```tsx
+import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@inzumer/ui-library';
+
+export function ContactForm() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Contact us</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Input label="Email" type="email" placeholder="you@example.com" />
+        <Button variant="primary">Send</Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+Subpath imports are also available if you want smaller, more explicit imports, e.g.
+`@inzumer/ui-library/button`, `@inzumer/ui-library/input`, `@inzumer/ui-library/card`,
+`@inzumer/ui-library/icon` — see the `exports` map in `packages/ui/package.json` for the full list
+(one per component, atoms and molecules alike). The shared hooks are published the same way —
+`@inzumer/ui-library/use-media-query`, `@inzumer/ui-library/use-delayed-unmount`, etc. (see
+[Hooks](/docs/documentation-hooks--docs)) — or import them from the package root alongside the
+components:
+
+```tsx
+import { useMediaQuery } from '@inzumer/ui-library';
+```
+
+## Publishing (maintainers)
+
+This repo uses [Changesets](https://github.com/changesets/changesets):
+
+```bash
+pnpm changeset          # describe the change, pick which package(s) bump
+pnpm changeset:version  # applies version bumps + changelogs
+pnpm changeset:publish  # builds every package and runs `npm publish`
+```
+
+Requires being logged in to npm with publish rights to the `@inzumer` scope. `changeset publish`
+publishes any workspace package whose version changed and isn't marked private.
+
+## Testing an unpublished version in another repo
+
+Useful while developing a change here that you want to try in `inzumer`/`zamuner`/a new project before
+cutting a release.
+
+**Option A — tarball (closest to a real install, no live-reload):**
+
+```bash
+# in this repo
+pnpm --filter @inzumer/ui-library build
+cd packages/ui && pnpm pack   # produces inzumer-ui-library-<version>.tgz
+
+# in the consumer repo
+pnpm add /absolute/path/to/inzumer-ui-library-<version>.tgz
+```
+
+**Option B — `pnpm link` (live iteration, rebuild to see changes):**
+
+```bash
+# in this repo
+cd packages/ui && pnpm link --global
+
+# in the consumer repo
+pnpm link --global @inzumer/ui-library
+```
+
+With linking, changes require re-running `pnpm build` (or `pnpm dev` for a `tsup --watch` rebuild) in
+this repo — the consumer app doesn't rebuild the library for you.
+
+Either way, do the same for `@inzumer/tokens` if you're also testing token changes — `packages/ui`
+depends on it via `workspace:*` inside this monorepo, but an external consumer needs its own real (or
+linked) copy.
+
+## Version compatibility
+
+`@inzumer/ui-library`'s peer dependencies accept both React 18 and 19
+(`react: ">=18 || ^19"`) — check [Installation](/docs/documentation-installation--docs) for the full
+peer dependency table before upgrading either side.

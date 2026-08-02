@@ -1,0 +1,74 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Introduction" />
+
+# Inzumer UI Library
+
+`@inzumer/ui-library` is the shared React component library for the Inzumer design system. It provides
+accessible, token-driven components (`Button`, `Input`, `Card`) meant to be installed into other
+repositories — currently the two reference consumers are the **inzumer** and **zamuner** sites — instead
+of copy-pasting UI code between projects.
+
+## Why this exists
+
+- **One source of truth for UI.** A button fix or a new input state ships once, from this repo, instead
+  of being duplicated (and drifting) across every project that needs it.
+- **Token-driven, not hardcoded.** Components never hardcode a hex color or a pixel value — they read
+  CSS custom properties (`var(--btn-primary-bg)`, `var(--surface-primary)`, ...) supplied by
+  `@inzumer/tokens`. Rebranding a consumer app means swapping the token values, not editing component
+  code — see [Overriding Styles](/docs/documentation-overriding-styles--docs).
+- **Accessible by default.** Semantic HTML, visible focus states, and keyboard support are
+  non‑negotiable — enforced by `eslint-plugin-jsx-a11y` at lint time and `@storybook/addon-a11y`
+  (axe-core) at render time.
+
+## What lives where
+
+This is a **pnpm + Turborepo monorepo** with two published packages:
+
+<table>
+  <thead>
+    <tr>
+      <th>Package</th>
+      <th>Published as</th>
+      <th>Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>packages/ui</code>
+      </td>
+      <td>
+        <code>@inzumer/ui-library</code>
+      </td>
+      <td>
+        The components themselves (<code>Button</code>, <code>Input</code>, <code>Card</code>)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>packages/tokens</code>
+      </td>
+      <td>
+        <code>@inzumer/tokens</code>
+      </td>
+      <td>Design tokens, theming, CSS variables, Tailwind preset</td>
+    </tr>
+  </tbody>
+</table>
+
+Everything else (`packages/eslint-config`, `packages/prettier-config`, `packages/tsconfig`) is internal
+tooling shared across both — not meant to be consumed by other projects.
+
+## Where to go next
+
+- New to the repo? Start with [Installation](/docs/documentation-installation--docs) and
+  [Tech Stack](/docs/documentation-tech-stack--docs).
+- Building a component? See [Components](/docs/documentation-components--docs) and
+  [Import Aliases](/docs/documentation-import-aliases--docs).
+- Theming or rebranding? See [Design Tokens](/docs/documentation-design-tokens--docs),
+  [Theming](/docs/documentation-theming--docs), and
+  [Overriding Styles](/docs/documentation-overriding-styles--docs).
+- Consuming this library from `inzumer`, `zamuner`, or a new project? See
+  [Consuming The Library](/docs/documentation-consuming-the-library--docs).
+- Curious about the `.claude/agents` setup? See [Claude Agents](/docs/documentation-claude-agents--docs).

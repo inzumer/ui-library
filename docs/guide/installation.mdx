@@ -1,0 +1,118 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Installation" />
+
+# Installation
+
+## Prerequisites
+
+- Node.js **>=18**
+- **pnpm >=9** to work on this monorepo itself (`packageManager: "pnpm@9.15.9"` in the root
+  `package.json`). Run `corepack enable` if the `pnpm` command isn't on your PATH.
+- Consumers of the published packages can use npm, yarn, or pnpm — the packages themselves don't
+  require pnpm.
+
+## Working on this repo
+
+```bash
+git clone <this-repo>
+cd ui-library
+pnpm install
+```
+
+That installs all workspace packages (`packages/ui`, `packages/tokens`, and the shared
+`eslint-config`/`prettier-config`/`tsconfig` packages) in one pass. See
+[Tech Stack](/docs/documentation-tech-stack--docs) for what each tool does, and run `pnpm storybook`
+to open this documentation locally at `http://localhost:6006`.
+
+## Installing the published packages in another project
+
+```bash
+pnpm add @inzumer/ui-library @inzumer/tokens
+# or: npm install / yarn add
+```
+
+`@inzumer/ui-library` declares these as **peer dependencies** — install them too if your project
+doesn't already have them:
+
+```bash
+pnpm add react react-dom class-variance-authority clsx tailwind-merge
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Peer dependency</th>
+      <th>Version range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>react</code>
+      </td>
+      <td>
+        <code>&gt;=18 || ^19</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>react-dom</code>
+      </td>
+      <td>
+        <code>&gt;=18 || ^19</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>class-variance-authority</code>
+      </td>
+      <td>
+        <code>&gt;=0.7.0</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>clsx</code>
+      </td>
+      <td>
+        <code>&gt;=2.0.0</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>tailwind-merge</code>
+      </td>
+      <td>
+        <code>&gt;=2.0.0</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Peer dependencies are **not** bundled into `@inzumer/ui-library` — this keeps the package small and
+avoids shipping a second copy of React in your app.
+
+## Minimum setup
+
+1. Add the Tailwind preset from `@inzumer/tokens` to your app's `tailwind.config.ts` (see
+   [Design Tokens](/docs/documentation-design-tokens--docs)).
+2. Import the base tokens CSS somewhere loaded once (e.g. your root layout), so the CSS custom
+   properties components rely on (`--btn-primary-bg`, `--surface-primary`, ...) exist:
+
+   ```ts
+   import '@inzumer/tokens/css/reset';
+   import '@inzumer/tokens/css/variables';
+   import '@inzumer/tokens/css/typography';
+   ```
+
+3. Import and use components:
+
+   ```tsx
+   import { Button } from '@inzumer/ui-library';
+
+   <Button variant="primary">Click me</Button>;
+   ```
+
+For the full walkthrough (Next.js example, package-manager specifics, testing an unpublished version
+locally), see [Consuming The Library](/docs/documentation-consuming-the-library--docs).

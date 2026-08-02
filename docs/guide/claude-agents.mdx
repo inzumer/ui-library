@@ -1,0 +1,181 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Claude Agents" />
+
+# Claude Agents
+
+This repo defines a set of specialized agent personas under `.claude/agents/`, referenced from
+`.claude/.claudecode.json` and `.claude/prompts/bootstrap-library.md`. They aren't separate running
+processes — they're **role definitions** Claude Code is expected to read and follow when working in
+this repo, each scoped to one concern so a single change gets checked from every relevant angle
+instead of relying on one generalist pass.
+
+## The agents
+
+<table>
+  <thead>
+    <tr>
+      <th>Agent</th>
+      <th>Role</th>
+      <th>Objective</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>planner-agent</code>
+      </td>
+      <td>Technical Product Manager</td>
+      <td>Define the component contract and UX strategy before implementation starts.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>architect-agent</code>
+      </td>
+      <td>Senior Software Architect</td>
+      <td>Keep the library scalable, maintainable, composable.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>a11y-agent</code>
+      </td>
+      <td>Accessibility Expert (WCAG 2.1 AA)</td>
+      <td>Every component accessible across keyboard, screen readers, touch, and WebViews.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>performance-agent</code>
+      </td>
+      <td>Performance Engineer</td>
+      <td>Minimal bundle size, smooth rendering, WebView-friendly performance.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>task-runner-agent</code>
+      </td>
+      <td>Fullstack Developer / SDET</td>
+      <td>Implement components with tests, stories, and builds passing.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>testing-strategy-agent</code>
+      </td>
+      <td>Quality Engineering Strategist</td>
+      <td>Define the testing pyramid and reliability standards.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>documentation-agent</code>
+      </td>
+      <td>Technical Documentation Specialist</td>
+      <td>
+        Every component understandable, discoverable, maintainable — this page and its siblings are
+        that agent's concern.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>design-system-agent</code>
+      </td>
+      <td>Design System Architect</td>
+      <td>
+        Visual consistency, token-driven UI architecture (see{' '}
+        <a href="/docs/documentation-design-tokens--docs">Design Tokens</a>).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mobile-bridge-agent</code>
+      </td>
+      <td>Mobile WebView &amp; Native Bridge Specialist</td>
+      <td>Correct behavior inside iOS/Android WebViews.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>repository-governance-agent</code>
+      </td>
+      <td>Repository Governance Manager</td>
+      <td>Documentation, planning artifacts, ADRs, structural conventions.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>context-manager-agent</code>
+      </td>
+      <td>Context Window Optimization Specialist</td>
+      <td>Minimize token waste while maximizing relevant architectural context.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>workflow-orchestrator-agent</code>
+      </td>
+      <td>Multi-Agent Workflow Orchestrator</td>
+      <td>Sequences the other agents (see below).</td>
+    </tr>
+    <tr>
+      <td>
+        <code>policy-engine</code>
+      </td>
+      <td>Global Decision Arbitration</td>
+      <td>Resolves conflicting rules by priority (see below).</td>
+    </tr>
+    <tr>
+      <td>
+        <code>execution-state-machine</code>
+      </td>
+      <td>Deterministic Task Execution Pipeline</td>
+      <td>
+        Enforces a strict lifecycle (plan → validate → implement → test → document) for every task.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Standard workflow order
+
+Per `workflow-orchestrator-agent.md`, a full feature/component task runs through agents in this
+order — each phase validates the previous one rather than re-doing it:
+
+```txt
+1. planner-agent            → component contract, stories plan, testing requirements
+2. architect-agent           → architecture/composition/folder-structure approval
+3. a11y-agent                → accessibility requirements
+4. performance-agent         → rendering/bundle recommendations
+5. task-runner-agent         → implementation + tests + stories
+6. testing-strategy-agent    → testing/coverage approval
+7. documentation-agent       → docs/examples/Storybook clarity approval
+```
+
+Shortcut workflows exist for urgent cases and skip straight to the relevant agents:
+
+- **Emergency** (urgent bug fix): `architect-agent` → `a11y-agent` → `task-runner-agent`
+- **Refactor**: `architect-agent` → `performance-agent` → `task-runner-agent` → `testing-strategy-agent`
+- **Accessibility incident**: `a11y-agent` → `task-runner-agent` → `testing-strategy-agent`
+
+## When rules conflict: the policy engine
+
+`policy-engine.md` defines a strict priority order so agents don't produce contradictory guidance —
+from highest to lowest:
+
+1. **P0 — Safety & Accessibility** (`a11y-agent`) — overrides everything; a violation stops execution.
+2. **P1 — Repository Governance** (`repository-governance-agent`)
+3. _(lower tiers continue in the source file for architecture, performance, and style concerns)_
+
+## Rules that shaped decisions in this repo
+
+A few concrete rules from these agent definitions that are visible elsewhere in this codebase, so you
+know where they came from:
+
+- _"All imports MUST use configured aliases... Relative imports are forbidden outside of same folder"_
+  (`workflow-orchestrator-agent.md`) → [Import Aliases](/docs/documentation-import-aliases--docs).
+- _"No component is considered complete unless: test file exists... accessibility scenarios are
+  covered where applicable"_ → [Testing And Coverage](/docs/documentation-testing-and-coverage--docs),
+  `.claude/.claudecode.json`'s `testing.minimumCoverage: 90`.
+- _"All architectural decisions MUST go in /docs/adr"_ → see `docs/adr/` for the ADRs already on file
+  (library architecture, Tailwind strategy, build/distribution strategy).
+
+## Where this is actually enforced
+
+There's no code that mechanically runs these agents — they're instructions for whoever (human or
+Claude Code) is doing the work to follow. Treat `.claude/agents/*.md` as the source of truth for "how
+we work here" the same way you'd treat a CONTRIBUTING.md, just organized by concern instead of as one
+long document.

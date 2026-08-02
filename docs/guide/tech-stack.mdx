@@ -1,0 +1,238 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Tech Stack" />
+
+# Tech Stack
+
+## Monorepo tooling
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>pnpm workspaces</strong>
+      </td>
+      <td>
+        Package manager and workspace linking (<code>workspace:*</code> protocol between our own
+        packages).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Turborepo</strong>
+      </td>
+      <td>
+        Runs <code>build</code>/<code>test</code>/<code>typecheck</code>/<code>lint</code> across
+        every package, caching results per task.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Changesets</strong>
+      </td>
+      <td>
+        Version bumping, changelog generation, and <code>npm publish</code> for{' '}
+        <code>@inzumer/ui-library</code> and <code>@inzumer/tokens</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Building the components
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>React 18/19</strong>
+      </td>
+      <td>Component model. Both major versions are supported via peer dependency ranges.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>TypeScript (strict)</strong>
+      </td>
+      <td>
+        <code>strict: true</code>, <code>noUncheckedIndexedAccess</code>,{' '}
+        <code>exactOptionalPropertyTypes</code> — see <code>packages/tsconfig</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>tsup</strong> (esbuild)
+      </td>
+      <td>
+        Bundles each package to ESM + generates <code>.d.ts</code> declarations. Fast,
+        zero-config-ish.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Tailwind CSS 3</strong>
+      </td>
+      <td>
+        Utility classes, composed with our own preset (<code>@inzumer/tokens/tailwind</code>).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>class-variance-authority (cva)</strong>
+      </td>
+      <td>
+        Typed variant props (<code>variant</code>, <code>size</code>, ...) for every component.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>clsx</strong> + <strong>tailwind-merge</strong>
+      </td>
+      <td>
+        The <code>cn()</code> helper — merges className strings and resolves conflicting Tailwind
+        utilities.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Testing
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>Vitest</strong>
+      </td>
+      <td>Unit test runner (Vite-powered, fast, ESM-native).</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>React Testing Library</strong>
+      </td>
+      <td>Renders components and queries them the way a user would (role, label, text).</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>jsdom</strong>
+      </td>
+      <td>DOM environment for tests (no real browser needed).</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>@vitest/coverage-v8</strong>
+      </td>
+      <td>
+        Coverage reporting — target is <strong>90%</strong> lines/branches/functions/statements. See{' '}
+        <a href="/docs/documentation-testing-and-coverage--docs">Testing And Coverage</a>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Documentation & visual testing
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>Storybook 8</strong> (Vite builder)
+      </td>
+      <td>Renders every component in isolation; this documentation section lives here too.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>@storybook/addon-a11y</strong>
+      </td>
+      <td>Runs axe-core accessibility checks against every rendered story.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>@storybook/addon-toolbars</strong>
+      </td>
+      <td>Powers the "Color scheme" and "Brand theme" dropdowns in the Storybook toolbar.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>@storybook/addon-viewport</strong>
+      </td>
+      <td>Preview components at mobile/tablet/desktop breakpoints.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>@storybook/addon-interactions</strong>
+      </td>
+      <td>
+        Play functions / interaction testing (infrastructure is in place; not all stories use it
+        yet).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Code quality
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>ESLint 9</strong> (flat config)
+      </td>
+      <td>
+        <code>@inzumer/eslint-config</code> — <code>@typescript-eslint</code>,{' '}
+        <code>eslint-plugin-react</code>, <code>eslint-plugin-react-hooks</code>,{' '}
+        <code>eslint-plugin-jsx-a11y</code>, <code>@vitest/eslint-plugin</code>. Enforces{' '}
+        <code>semi</code>, <code>curly</code>, unused-import removal, and more.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Prettier</strong>
+      </td>
+      <td>
+        <code>@inzumer/prettier-config</code> — <code>@ianvs/prettier-plugin-sort-imports</code>{' '}
+        keeps import groups ordered: builtins → third-party → <code>@inzumer/*</code> workspace
+        packages → local aliases (<code>@components</code>, <code>@utils</code>, ...) → relative
+        imports.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Why these choices, briefly
+
+- **tsup over a hand-rolled Rollup/esbuild setup**: near-zero config for a "build a library, emit ESM +
+  types" use case, which is all these two packages need.
+- **Vitest over Jest**: shares Vite's transform pipeline (same TS/JSX handling as the rest of the
+  toolchain), faster, no separate Babel config to maintain.
+- **CSS custom properties over CSS-in-JS**: theming needs to work for plain CSS/Tailwind consumers
+  too (see [Design Tokens](/docs/documentation-design-tokens--docs)), and avoids a runtime styling
+  library as a dependency.

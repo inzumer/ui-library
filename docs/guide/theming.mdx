@@ -1,0 +1,139 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Theming" />
+
+# Theming
+
+There are two independent axes of "theme" in this system, and they're driven by two different
+mechanisms — don't confuse them.
+
+## 1. Color scheme (light / dark)
+
+Purely a static CSS concern — no JavaScript required. The `[data-color-scheme="dark"]` attribute
+selector in `variables.css` overrides the same custom property names `:root` defines for light mode.
+Whatever sets that attribute on an ancestor element controls the scheme:
+
+```html
+<html data-color-scheme="dark">
+  <!-- everything under here reads the dark variable values -->
+</html>
+```
+
+In this Storybook, the **Color scheme** toolbar dropdown sets this attribute on a wrapper div around
+each story (see `.storybook/preview.tsx`). In a consumer app, you can set it yourself (e.g. from a
+`prefers-color-scheme` media query, a user setting, or a class toggle synced to that attribute) or use
+`InzumerProvider` below, which does it for you.
+
+## 2. Runtime overrides — `InzumerProvider`
+
+`@inzumer/tokens` exports a React provider for cases where the color values themselves need to change
+at runtime (not just switch between the two built-in schemes) — e.g. white-labeling, a theme picker,
+or A/B testing a palette.
+
+```tsx
+import { InzumerProvider } from '@inzumer/tokens';
+
+function App() {
+  return (
+    <InzumerProvider colorScheme="light" theme={{ colors: { primary: { 500: '220 38 38' } } }}>
+      <YourApp />
+    </InzumerProvider>
+  );
+}
+```
+
+`InzumerProvider` props:
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>colorScheme</code>
+      </td>
+      <td>
+        <code>'light' | 'dark'</code>
+      </td>
+      <td>
+        Sets <code>data-color-scheme</code> on the target element (see above). Defaults to{' '}
+        <code>'light'</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>theme</code>
+      </td>
+      <td>
+        <code>ThemeOverride</code> (
+        <code>
+          {'{'} colors?, semantic? {'}'}
+        </code>
+        )
+      </td>
+      <td>Partial override, deep-merged with the defaults. See caveat below.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>targetElement</code>
+      </td>
+      <td>
+        <code>HTMLElement</code>
+      </td>
+      <td>
+        Defaults to <code>document.documentElement</code>. Override for scoped theming (e.g. an
+        embedded widget).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Read the resolved theme anywhere below the provider with `useInzumerTheme()`:
+
+```tsx
+const { theme, colorScheme } = useInzumerTheme();
+```
+
+### Important caveat: what actually gets injected
+
+`InzumerProvider` injects CSS custom properties as **inline styles** on the target element. Inline
+styles beat every stylesheet rule regardless of specificity — including the
+`[data-color-scheme="dark"]` rule above. To avoid the provider silently breaking dark mode:
+
+- **`theme.colors` overrides are always injected in full** (all ~60 base color variables) — this is
+  safe because base colors (`--color-primary-500`, etc.) don't have separate light/dark values in the
+  stylesheet; only the semantic layer does.
+- **`theme.semantic` overrides are injected sparsely** — only the exact keys you pass, never the full
+  resolved semantic object. If you override `theme.semantic.button.primary.background`, only
+  `--btn-primary-bg` becomes an inline style; every other semantic variable keeps following the
+  stylesheet, so dark mode still works for everything you didn't explicitly override.
+
+If you need a semantic override to differ between light and dark, swap the `theme` prop's value
+yourself when `colorScheme` changes — the provider does not do this automatically.
+
+See `packages/tokens/src/provider/InzumerProvider.tsx` and `packages/tokens/src/utils/inject-css-vars.ts`
+(`buildCssVars`, `buildSemanticCssVars`) for the implementation.
+
+## Built-in themes
+
+`DefaultTheme` and `DarkTheme` (`packages/tokens/src/themes/`) are the two `ResolvedTheme` objects
+(`{ base, semantic }`) used as the provider's defaults — `DefaultTheme` pairs `baseTokens` with
+`lightSemanticTokens`, `DarkTheme` pairs the same `baseTokens` with `darkSemanticTokens`.
+`createTheme(override)` (in `packages/tokens/src/utils/create-theme.ts`) always resolves **against the
+light theme** as its merge base — dark mode is applied separately, at the CSS layer described above,
+not by `createTheme`.
+
+## Storybook-only brand themes
+
+The **Brand theme** toolbar dropdown (Default / Inzumer / Zamuner) is a **Storybook-only testing aid**
+— it does not ship in the published package. `.storybook/brand-themes.css` hardcodes each consumer
+site's real palette (copied from `../inzumer/src/app/styles.css` and `../zamuner/src/app/global.css`)
+under `[data-brand-theme="inzumer"]` / `[data-brand-theme="zamuner"]` selectors, so you can preview how
+`Button`/`Input`/`Card` will actually look once embedded in either site, without leaving this repo.
+Selecting a brand theme overrides the same semantic variables described above; it deliberately ignores
+the Color scheme toggle, since neither site offers a light/dark switch of its own.

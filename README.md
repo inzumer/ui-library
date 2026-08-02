@@ -1,27 +1,42 @@
-# @inzumer/ui
+# Inzumer UI Library
 
-Production-grade React component library for web applications and mobile WebViews.
+Production-grade React component library monorepo for web applications and mobile WebViews. The published package is [`@inzumer/ui-library`](./packages/ui).
 
 ---
 
 ## Purpose
 
-`@inzumer/ui` provides a unified, accessible, and performant design system for TypeScript React projects. It enforces consistent visual language, interaction patterns, and WCAG 2.1 AA accessibility standards across web and WebView platforms.
+`@inzumer/ui-library` provides a unified, accessible, and performant design system for TypeScript React projects. It enforces consistent visual language, interaction patterns, and WCAG 2.1 AA accessibility standards across web and WebView platforms.
+
+---
+
+## Monorepo layout
+
+| Package                                                                               | Description                                                |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`packages/ui`](./packages/ui) → `@inzumer/ui-library`                                | The published component library (Button, Input, Card).     |
+| [`packages/tokens`](./packages/tokens) → `@inzumer/tokens`                            | Design tokens, theming, CSS variables and Tailwind preset. |
+| [`packages/eslint-config`](./packages/eslint-config) → `@inzumer/eslint-config`       | Shared ESLint flat config.                                 |
+| [`packages/prettier-config`](./packages/prettier-config) → `@inzumer/prettier-config` | Shared Prettier config.                                    |
+| [`packages/tsconfig`](./packages/tsconfig) → `@inzumer/tsconfig`                      | Shared TypeScript base configs.                            |
+
+Managed with **pnpm workspaces** + **Turborepo**.
 
 ---
 
 ## Stack
 
-| Tool | Purpose |
-|---|---|
-| React 18 | Component model |
-| TypeScript (strict) | Type safety |
-| Vite | Build tooling (library mode) |
-| Tailwind CSS | Token-driven styling |
-| class-variance-authority | Variant management |
-| Vitest + RTL | Unit and accessibility testing |
-| Storybook 8 | Component documentation |
-| ESLint + Prettier | Code quality |
+| Tool                       | Purpose                                 |
+| -------------------------- | --------------------------------------- |
+| React 18/19                | Component model                         |
+| TypeScript (strict)        | Type safety                             |
+| tsup                       | Library build (ESM + type declarations) |
+| Tailwind CSS 3             | Token-driven styling                    |
+| class-variance-authority   | Variant management                      |
+| Vitest + RTL               | Unit and accessibility testing          |
+| Storybook 8 (Vite builder) | Component documentation                 |
+| Changesets                 | Versioning and publishing               |
+| ESLint + Prettier          | Code quality                            |
 
 ---
 
@@ -29,57 +44,99 @@ Production-grade React component library for web applications and mobile WebView
 
 ### Prerequisites
 
-- Node.js >=20
-- npm >=10
+- Node.js >=18
+- pnpm >=9 (this repo pins `pnpm@9.15.9` via `packageManager`; run `corepack enable` if `pnpm` isn't on your PATH)
 
 ### Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
-### Development
+### Storybook
 
 ```bash
-npm run dev
+pnpm storybook
 ```
 
-Opens Storybook at `http://localhost:6006`.
+Opens Storybook at `http://localhost:6006`, rendering the components straight from `packages/ui/src`.
+
+```bash
+pnpm build-storybook
+```
+
+Builds a static Storybook into `storybook-static/`.
 
 ---
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start Storybook development server |
-| `npm run build` | Build library for distribution |
-| `npm run build:storybook` | Build static Storybook |
-| `npm test` | Run test suite |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run typecheck` | TypeScript type check (no emit) |
-| `npm run lint` | Lint source files |
-| `npm run lint:fix` | Lint and auto-fix |
-| `npm run format` | Format source files with Prettier |
-| `npm run format:check` | Check formatting without writing |
+Run from the repo root; Turborepo fans these out to every package as needed.
+
+| Command                             | Description                                                 |
+| ----------------------------------- | ----------------------------------------------------------- |
+| `pnpm storybook`                    | Start the Storybook dev server                              |
+| `pnpm build-storybook`              | Build a static Storybook                                    |
+| `pnpm dev`                          | Run every package's `dev` script in parallel (watch builds) |
+| `pnpm build`                        | Build all packages for distribution                         |
+| `pnpm test`                         | Run test suites across the workspace                        |
+| `pnpm typecheck`                    | TypeScript type check (no emit) across the workspace        |
+| `pnpm lint`                         | Lint source files across the workspace                      |
+| `pnpm format` / `pnpm format:check` | Prettier write / check                                      |
+| `pnpm changeset`                    | Record a changeset for pending changes                      |
+| `pnpm changeset:version`            | Apply changesets and bump versions                          |
+| `pnpm changeset:publish`            | Build and publish to npm                                    |
 
 ---
 
 ## Using the library
 
+```bash
+pnpm add @inzumer/ui-library
+```
+
 ```tsx
-import { Button } from '@inzumer/ui'
-import '@inzumer/ui/dist/style.css'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@inzumer/ui-library';
 
 export function App() {
   return (
-    <Button variant="primary" onClick={() => console.log('clicked')}>
-      Click me
-    </Button>
-  )
+    <Card>
+      <CardHeader>
+        <CardTitle>Hello</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Input label="Name" placeholder="Jane Doe" />
+        <Button variant="primary" onClick={() => console.log('clicked')}>
+          Submit
+        </Button>
+      </CardContent>
+    </Card>
+  );
 }
 ```
+
+Consumers also need the design tokens (Tailwind preset + base CSS variables) from `@inzumer/tokens` — see that package's README/exports for the Tailwind preset and CSS entry points.
+
+### Publishing
+
+This repo uses [Changesets](https://github.com/changesets/changesets):
+
+1. `pnpm changeset` — describe the change and select which packages bump.
+2. `pnpm changeset:version` — applies version bumps and updates changelogs.
+3. `pnpm changeset:publish` — builds every package and runs `npm publish` (requires being logged in to npm with publish rights to the `@inzumer` scope).
+
+### Testing a local build in another repo before publishing
+
+```bash
+# inside packages/ui
+pnpm build
+pnpm pack   # produces inzumer-ui-library-<version>.tgz
+
+# inside the consumer repo
+pnpm add /path/to/inzumer-ui-library-<version>.tgz
+```
+
+or use `pnpm link --global` from `packages/ui` and `pnpm link --global @inzumer/ui-library` from the consumer repo for live iteration.
 
 ---
 
@@ -91,7 +148,7 @@ All agents and architecture rules are defined in `.claude/agents/`. Read them be
 
 ### Planning requirement
 
-All non-trivial changes require a planning document in `/docs/plans/` before implementation begins.  
+All non-trivial changes require a planning document in `/docs/plans/` before implementation begins.
 See `YYYY-MM-DD-task-name.md` format.
 
 ### Architectural decisions
@@ -117,17 +174,17 @@ docs: update README setup instructions
 
 ### Pull request checklist
 
-- [ ] Planning document exists in `/docs/plans/`
-- [ ] All tests pass (`npm test`)
-- [ ] TypeScript passes (`npm run typecheck`)
-- [ ] Lint passes (`npm run lint`)
+- [ ] Planning document exists in `/docs/plans/` (for non-trivial changes)
+- [ ] All tests pass (`pnpm test`)
+- [ ] TypeScript passes (`pnpm typecheck`)
+- [ ] Lint passes (`pnpm lint`)
 - [ ] Storybook stories cover new states
-- [ ] axe-core violations: zero
+- [ ] A changeset is included (`pnpm changeset`) for any published package change
 
 ---
 
 ## Accessibility commitment
 
-This library targets **WCAG 2.1 AA** compliance for every component. Accessibility is not optional and is tested automatically via axe-core on every build.
+This library targets **WCAG 2.1 AA** compliance for every component. Accessibility is checked in Storybook via `@storybook/addon-a11y` and should be verified for every new component.
 
 If you find an accessibility issue, please open an issue with the label `a11y`.

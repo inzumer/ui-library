@@ -1,0 +1,114 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Components" />
+
+# Components
+
+Components are organized by [Atomic Design](https://atomicdesign.bradfrost.com/) tier under
+`packages/ui/src/components/<tier>/<Name>/`, where `<tier>` is one of `atoms`, `molecules`,
+`organisms`, or `templates` (the last two are scaffolded — reserved for future, more composite
+pieces). Each component follows a consistent file layout:
+
+```txt
+atoms/Button/
+├── Button.styles.ts      # cva(...)/class-string definitions (buttonStyles) — internal to Button.tsx
+├── Button.tsx            # the component — imports from Button.styles.ts, exports Button/ButtonProps
+├── Button.stories.tsx    # Storybook stories: controls + interaction tests, generates the Docs page
+├── README.md             # what it's for and how to use it — the first thing to read for this component
+├── index.ts              # export * from './Button' — re-exports Button/ButtonProps
+└── __tests__/
+    └── Button.test.tsx   # Vitest + Testing Library tests
+```
+
+Each tier has its own barrel (`atoms/index.ts`, `molecules/index.ts`, ...), and those roll up into
+the root `src/components/index.ts` barrel — which is what the bare `@components` alias resolves to
+(see [Import Aliases](/docs/documentation-import-aliases--docs)). Reach for anything through that
+barrel (`import { Button, Card } from '@components'`) rather than spelling out the specific tier/file
+path — shorter, and it's how every component reaches its siblings internally too.
+
+Every component's own **`README.md`** is the fastest way to learn what it's for and how to use it —
+open that first. Props, controls, and live examples for each one are also on their own **Docs** tab
+in the sidebar (Atoms/Molecules → *Component* → Docs) — generated automatically from the component's
+TypeScript types and stories (`docs: { autodocs: 'tag' }` in `.storybook/main.ts`). This page covers
+the conventions that apply across all of them and how to add a new one, instead of repeating
+per-component prop tables.
+
+## Shared conventions
+
+- **`forwardRef` everywhere.** Every component forwards its ref to the underlying DOM node
+  (`HTMLButtonElement`, `HTMLInputElement`, `HTMLDivElement`, ...) so consumers can focus/measure/
+  integrate with ref-based libraries (form libraries, `IntersectionObserver`, etc.).
+- **Styles live in `ComponentName.styles.ts`, not inline in the component.** Every `cva(...)` call
+  and any other style-only class-name constant is declared and exported from a sibling
+  `ComponentName.styles.ts` file, then imported into `ComponentName.tsx`. This keeps the component
+  file focused on structure/behavior and the styles file focused on classes — read either one without
+  the other getting in the way. Exported style names are short and end in `Styles` (`buttonStyles`,
+  `inputStyles`, `modalPanelStyles`, ...) rather than the older `xVariants` naming. These are internal
+  implementation details — the component file imports what it needs from its styles file but doesn't
+  re-export it, so `buttonStyles` etc. aren't part of the package's public API.
+- **No blank lines between imports.** All imports in a file (built-ins, third-party, `@inzumer/*`,
+  `@components`/`@utils`/etc. aliases, relative) are sorted by
+  `@ianvs/prettier-plugin-sort-imports` (see `packages/prettier-config/index.json`'s `importOrder`)
+  but kept as one contiguous block, not grouped with blank lines between them.
+- **`className` always wins.** Every component accepts a `className` prop and merges it last via the
+  shared `cn()` helper (`clsx` + `tailwind-merge`), so consumer overrides never lose to the
+  component's own classes.
+- **Semantic HTML first.** `Button` renders a real `<button>`, `Input` a real `<input>` with an
+  associated `<label>` (via `useId()` when no `id` is passed), `CardTitle` renders a heading element
+  (`as` prop controls `h1`–`h6`). No `role="button"` on a `<div>`.
+- **Styling reads tokens, not literals.** Components use `var(--btn-primary-bg)`,
+  `var(--surface-primary)`, etc. — never a hardcoded hex value — so themes and brand overrides apply
+  automatically. See [Design Tokens](/docs/documentation-design-tokens--docs).
+- **Export at the declaration, not in a block at the bottom.** Every symbol that's part of a file's
+  public surface — components, style constants, prop types — is written as
+  `export const X = ...` / `export type X = ...` right where it's declared. Nothing gets named again
+  in a trailing `export { ... }` / `export type { ... }` block. This applies to every file in
+  `packages/ui/src` (components, styles files, hooks, `utils/*`), not just components — e.g. the
+  shared hooks in `src/hooks/` follow it too (see [Hooks](/docs/documentation-hooks--docs)).
+- **Stories are playable, not just illustrative.** Every prop that takes a meaningful set of values
+  (an enum/union like `variant` or `size`, or a plain boolean/string) should be editable from the
+  Controls panel — that means an explicit `argTypes` entry for anything CVA-derived
+  (`VariantProps<typeof xStyles>` types don't auto-infer a clean `select` control), and it means the
+  story's `render` function has to actually consume `args` instead of hardcoding values. A `render`
+  that ignores `args` (common when a story wraps the component in local `useState` for an
+  open/checked/value demo) silently breaks the Controls panel — spread `{...args}` in and only
+  override the specific controlled prop/callback pair the demo needs, the way `Switch.stories.tsx`
+  or `Modal.stories.tsx` do. Where a story demonstrates a real interaction (click, type, toggle,
+  open/close), add a `play` function using `@storybook/test` (`within`, `userEvent`, `expect`) so
+  it's exercised — and visible, step by step, in the Interactions panel — automatically.
+
+## Organisms & Templates
+
+Scaffolded (`organisms/index.ts`, `templates/index.ts`) but currently empty — reserved for more
+composite, page-section-level components as they're needed.
+
+## Adding a new component
+
+1. Decide the atomic tier (atom: standalone, no sub-parts; molecule: composed of a few atoms;
+   organism: a self-contained page section; template: a page-level layout skeleton with no real
+   content) and create `packages/ui/src/components/<tier>/<Name>/` following the layout above —
+   `ComponentName.styles.ts` for the `cva(...)`/class-string constants, `ComponentName.tsx` importing
+   what it needs from it. Export every constant/type/component at its declaration, not in a block at
+   the end of the file. Skip doc comments on props — let the prop name and type carry the meaning.
+2. Add it to that tier's barrel (`<tier>/index.ts`) — the root `components/index.ts` barrel and
+   `@components` alias pick it up automatically. The component's own `index.ts` stays a single
+   `export * from './ComponentName';`.
+3. Export it from `packages/ui/src/index.ts` (already re-exports everything via
+   `./components/index`) and add a subpath entry in `packages/ui/package.json`'s `exports` map
+   (matching the existing `./button`, `./card`, ... entries) and `packages/ui/tsup.config.ts`'s
+   `entry` map.
+4. Write stories covering every variant/state (see any existing `*.stories.tsx` for the pattern) —
+   these double as the autodocs page. Give it a `title` matching its tier, e.g. `'Atoms/Button'` or
+   `'Molecules/Card'`. Wire `argTypes` for any enum/CVA-derived prop, make sure `render` (if you need
+   one) actually consumes `args`, and add a `play` function for the story that demonstrates the
+   component's core interaction.
+5. Write tests in `__tests__/` — keep coverage at/above 90% (see
+   [Testing And Coverage](/docs/documentation-testing-and-coverage--docs)).
+6. Write a `README.md` in the component's folder: one line on what it's for, a basic usage snippet,
+   and the handful of props/variants a consumer decides between (not a full prop table — the Docs
+   tab and TypeScript already have that).
+7. Use only the semantic CSS variables already defined in `@inzumer/tokens` (or add new ones there
+   first) — don't hardcode colors or introduce component-local one-off tokens.
+8. If porting a component from another repo (e.g. `inzumer`/`zamuner`), keep only what's actually
+   generic and reusable — strip app-specific coupling (routing, i18n, hardcoded copy, business hooks)
+   in favor of props/callbacks the consumer supplies.

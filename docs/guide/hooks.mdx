@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Hooks" />
+
+# Hooks
+
+Shared React hooks live under `packages/ui/src/hooks/<useName>/`, one folder per hook, mirroring
+the component layout:
+
+```txt
+hooks/useMediaQuery/
+├── useMediaQuery.ts             # the hook
+├── index.ts                     # export * from './useMediaQuery'
+└── __tests__/
+    └── useMediaQuery.test.ts    # imports the hook via a relative path (../useMediaQuery) —
+                                  # it's testing that exact file, not going through a barrel
+```
+
+Each hook's own folder rolls up into the root `src/hooks/index.ts` barrel, which the bare `@hooks`
+alias resolves to — same pattern as `@components`. Reaching for a hook from a component uses that
+bare barrel:
+
+```ts
+import { useDelayedUnmount, useDismissableLayer, useMergedRef } from '@hooks';
+```
+
+Unlike components, hooks have no visual output, so they don't get `.stories.tsx` files.
+
+## Public API
+
+Hooks are part of the published package, not internal-only plumbing — `packages/ui/src/index.ts`
+re-exports `./hooks/index` alongside `./components/index`, and each hook has its own subpath
+export in `package.json` (`./use-media-query`, `./use-delayed-unmount`, ...) and its own entry in
+`tsup.config.ts`, matching how every component is exposed individually.
+
+## Current hooks
+
+- **`useMediaQuery(query: string): boolean`** — Tracks whether a CSS media query currently matches
+  (e.g. `useMediaQuery('(min-width: 768px)')`). SSR-safe (returns `false` until mounted, then syncs
+  to the real value) and re-subscribes whenever the `query` string changes.
+- **`useDelayedUnmount(open: boolean, exitDurationMs: number)`** — Returns `{ mounted, visible }` for
+  animating a component in and out instead of it snapping open/closed. Used by `Modal`, `BottomSheet`,
+  and `Snackbar` instead of each reimplementing the same timing logic.
+  - `mounted` flips to `true` immediately and stays `true` through the exit animation; `visible`
+    flips to `true` one animation frame later (so the browser has a "before" style to transition
+    from) and back to `false` the instant `open` goes false — the component keeps rendering with
+    `visible: false` for `exitDurationMs` before `mounted` finally goes `false` and the node unmounts.
+  - Components read `visible` to toggle their enter/exit Tailwind classes (`opacity-0`/`scale-95` ↔
+    `opacity-100`/`scale-100`, etc.) and must keep `exitDurationMs` equal to the CSS `duration-*`
+    class they use, or the unmount will race the transition.
+- **`useDismissableLayer(open, onClose, panelRef, closeOnBackdropClick?)`** — Wires up `Escape` and
+  outside-`pointerdown` dismissal for an overlay. Used by `Modal` and `BottomSheet`. `Snackbar`
+  doesn't use it — it dismisses itself via its own `duration` timer instead.
+- **`useMergedRef(...refs)`** — Combines a forwarded ref with a local one into a single ref
+  callback, for components that need to both expose a ref to consumers and read the DOM node
+  internally (e.g. `Modal`'s panel, for outside-click detection).
+
+## Adding a new hook
+
+1. Create `packages/ui/src/hooks/<useName>/<useName>.ts`, exported at its declaration
+   (`export const useName = ...`), and `packages/ui/src/hooks/<useName>/index.ts` re-exporting it
+   (`export * from './<useName>';`).
+2. Add it to `src/hooks/index.ts`. The `@hooks` alias and the root `src/index.ts` barrel pick it up
+   automatically.
+3. Add a subpath entry in `packages/ui/package.json`'s `exports` map and
+   `packages/ui/tsup.config.ts`'s `entry` map, matching the existing hook entries.
+4. Write tests in `__tests__/`, importing the hook via a relative path — keep coverage at/above 90%
+   (see [Testing And Coverage](/docs/documentation-testing-and-coverage--docs)).
+5. If porting a hook from another repo (e.g. `inzumer`/`zamuner`), generalize it first — drop any
+   hardcoded app config (a fixed breakpoint registry, a specific API path, `localStorage` keys tied
+   to one product) in favor of parameters the consumer supplies.

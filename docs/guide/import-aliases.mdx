@@ -1,0 +1,251 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Import Aliases" />
+
+# Import Aliases
+
+Both `packages/ui` and `packages/tokens` use path aliases for imports that cross a directory
+boundary, configured per-package in each `tsconfig.json`'s `compilerOptions.paths`. Same-folder
+sibling imports (`./Button` from `Button.stories.tsx`) stay relative — an alias doesn't add
+clarity for a file right next to you. No extension on that `./Button` either: both packages set
+`moduleResolution: "Bundler"` (in `packages/tsconfig/base.json`), which — unlike `NodeNext`/`Node16`
+— doesn't require spelling out `.js` on a relative import to a `.ts`/`.tsx` file. `tsc`, `tsup`
+(esbuild), and Vite (Vitest/Storybook) all resolve the extension-less form the same way, so there's
+nothing to add.
+
+**These aliases are internal to each package's own source.** They are not part of the public API —
+consumers of the published packages always import from the package name (`@inzumer/ui-library`,
+`@inzumer/tokens`), never from `@components/...` directly.
+
+## `packages/ui`
+
+<table>
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Resolves to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>@components</code>
+      </td>
+      <td>
+        <code>src/components/index.ts</code> (the atomic-design barrel: atoms, molecules, organisms,
+        templates)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@components/*</code>
+      </td>
+      <td>
+        <code>src/components/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@hooks</code>
+      </td>
+      <td>
+        <code>src/hooks/index.ts</code> (barrel of every shared hook)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@hooks/*</code>
+      </td>
+      <td>
+        <code>src/hooks/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@utils</code>
+      </td>
+      <td>
+        <code>src/utils/index.ts</code> (barrel of every shared util, e.g. <code>cn</code>)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@utils/*</code>
+      </td>
+      <td>
+        <code>src/utils/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@styles/*</code>
+      </td>
+      <td>
+        <code>src/styles/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@/*</code>
+      </td>
+      <td>
+        <code>src/*</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+```ts
+// Reaching for another component, a shared hook, or a util — always through the bare barrel:
+import { Link } from '@components';
+import { useDelayedUnmount } from '@hooks';
+import { cn } from '@utils';
+
+// A file importing its own sibling — relative, no alias:
+import { buttonStyles } from './Button.styles';
+
+// A hook's (or util's) own test importing that exact unit — relative too, same idea:
+import { useMediaQuery } from '../useMediaQuery';
+```
+
+Components, hooks, and utils are organized the same way — `src/components/`, `src/hooks/`, and
+`src/utils/` are each a folder of `<Name>/` subfolders with their own barrel `index.ts`, rolled up
+into that top-level folder's own `index.ts` (`src/components/index.ts`, `src/hooks/index.ts`,
+`src/utils/index.ts`), which is what the bare `@components`/`@hooks`/`@utils` alias resolves to.
+**Prefer the bare barrel over spelling out `@components/atoms/Button/Button`** whenever one file
+needs another component, hook, or util — it's shorter, and everything already flows through that
+barrel anyway. This applies inside `packages/ui/src` too (e.g. `Breadcrumbs.tsx` pulling in `Link`,
+`Modal.tsx` pulling in `useDelayedUnmount`, or any component pulling in `cn`), not just in
+stories/tests: esbuild tree-shakes the barrel at build time, so a component that only uses `Link`
+still ends up with just `Link` (and its own dependencies) in its bundle — confirmed by inspecting
+`dist/components/molecules/Breadcrumbs/` after a build, not just assumed. `@components/*`,
+`@hooks/*`, and `@utils/*` still exist for the rare case where the bare barrel would create an
+issue, but aren't the default. The one exception is a unit's **own** test importing that **exact**
+unit — that stays relative (`../useMediaQuery`, `../cn`), the same "don't alias a file right
+next to you" reasoning as `Button.tsx` importing `./Button.styles`.
+
+## `packages/tokens`
+
+<table>
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Resolves to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>@themes/*</code>
+      </td>
+      <td>
+        <code>src/themes/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@tokens/*</code>
+      </td>
+      <td>
+        <code>src/tokens/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@utils/*</code>
+      </td>
+      <td>
+        <code>src/utils/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@theme-types/*</code>
+      </td>
+      <td>
+        <code>src/types/*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@/*</code>
+      </td>
+      <td>
+        <code>src/*</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+```ts
+import type { ResolvedTheme } from '@theme-types/theme.js';
+import { DefaultTheme } from '@themes/default.js';
+import { baseColors } from '@tokens/base/colors.js';
+```
+
+Note the name **`@theme-types`**, not `@types` — TypeScript reserves special handling for any module
+specifier starting with `@types/` (it's the DefinitelyTyped npm scope), and using it as a local alias
+broke `.d.ts` generation (`TS6137: Cannot import type declaration files`) during the tsup build. Avoid
+`@types/*` as a local alias name for this reason.
+
+## What makes these aliases actually work
+
+Declaring `paths` in `tsconfig.json` only affects **type-checking** — the tools that execute the code
+need to understand the same mapping independently:
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>How it resolves the aliases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>tsc --noEmit</code> (typecheck)
+      </td>
+      <td>
+        Reads <code>tsconfig.json</code> <code>paths</code> directly.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>tsup</code> (build)
+      </td>
+      <td>
+        Reads the same <code>tsconfig.json</code> <code>paths</code> automatically — no extra config
+        needed.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>vitest</code> (tests)
+      </td>
+      <td>
+        The <code>vite-tsconfig-paths</code> plugin in each package's <code>vitest.config.ts</code>{' '}
+        reads the same <code>tsconfig.json</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>Storybook</td>
+      <td>
+        <code>vite-tsconfig-paths</code> in <code>.storybook/main.ts</code>, given both packages'{' '}
+        <code>tsconfig.json</code> via its <code>projects</code> option — scoped per package, so{' '}
+        <code>@utils</code> resolves correctly whether the importing file lives in{' '}
+        <code>packages/ui</code> or <code>packages/tokens</code>, despite both defining an alias
+        with that name.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Using one plugin (`vite-tsconfig-paths`) for both Vitest and Storybook means the aliases are defined
+**once**, in each package's `tsconfig.json` — nothing to keep in sync by hand.
+
+## The one exception: `packages/tokens/src/tailwind/preset.ts`
+
+This file uses plain relative imports (`../tokens/base/colors.js`), not aliases — on purpose. It's
+loaded via `jiti` through Tailwind's own config resolution (see the root `tailwind.config.ts`), a
+loading path that goes through neither `tsc` nor Vite, so it has no knowledge of our `tsconfig.json`
+paths. If you add new imports to that file, keep them relative.

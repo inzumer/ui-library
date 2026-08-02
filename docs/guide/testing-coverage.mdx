@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Testing And Coverage" />
+
+# Testing And Coverage
+
+## Stack
+
+- **Vitest** — test runner, sharing Vite's transform pipeline with the rest of the toolchain.
+- **React Testing Library** (`@testing-library/react`, `@testing-library/user-event`,
+  `@testing-library/jest-dom`) — renders components and interacts/asserts the way a user would
+  (`getByRole`, `getByLabelText`, `user.click(...)`), not by reaching into implementation details.
+- **jsdom** — DOM environment for tests, configured via `environment: 'jsdom'` in
+  `packages/ui/vitest.config.ts`.
+- **@vitest/coverage-v8** — coverage collection via V8's native coverage counters (no instrumentation
+  step, fast).
+
+## Running tests
+
+```bash
+pnpm test              # every package, via Turborepo
+pnpm --filter @inzumer/ui-library test        # just packages/ui
+pnpm --filter @inzumer/ui-library test:watch  # watch mode
+pnpm --filter @inzumer/ui-library test:coverage
+```
+
+## The 90% coverage target
+
+`packages/ui/vitest.config.ts` enforces it directly — `pnpm test:coverage` **fails** if any metric
+drops below the threshold:
+
+```ts
+coverage: {
+  provider: 'v8',
+  include: ['src/**/*.{ts,tsx}'],
+  exclude: ['src/test/**', 'src/**/*.stories.*', 'src/**/index.ts'],
+  thresholds: {
+    lines: 90,
+    branches: 90,
+    functions: 90,
+    statements: 90,
+  },
+},
+```
+
+Barrel `index.ts` files (pure re-exports, no logic) are excluded from coverage — without that
+exclusion, files with zero executable functions dragged the aggregate "functions" metric down in a
+way that had nothing to do with actual test gaps.
+
+`packages/tokens` doesn't have any tests yet (`"test": "vitest run --passWithNoTests"` — it exits 0
+with zero test files so CI doesn't fail on an empty package). The same 90% bar applies once tests are
+added there; add the same `thresholds` block to a `vitest.config.ts` coverage section at that point.
+
+## Where the 90% number comes from
+
+It's not arbitrary — it matches `testing.minimumCoverage` in `.claude/.claudecode.json`, the same
+number the repo's Claude agent rules use (see
+[Claude Agents](/docs/documentation-claude-agents--docs)). Keeping the enforced Vitest threshold and
+the documented agent rule at the same value means there's one number to update, not two that can
+drift apart.
+
+## Accessibility testing (two layers)
+
+1. **Static/lint time** — `eslint-plugin-jsx-a11y`, part of `@inzumer/eslint-config`'s `react` config.
+   Catches missing labels, invalid ARIA usage, non-interactive elements with click handlers, etc.,
+   before code is even run.
+2. **Render time** — `@storybook/addon-a11y` runs axe-core against every story automatically. Open any
+   story's **Accessibility** panel tab to see violations, and the toolbar's **Vision simulator** to
+   preview various forms of color-blindness against the rendered component.
+
+## Writing a new test
+
+Follow the existing tests in any `__tests__/` folder as the template: render with
+`@testing-library/react`, query by role/label/text (not by class name or test id unless nothing else
+identifies the element), assert on what a user would observe. Keep one `describe` block per
+component, one `it` per behavior.
