@@ -2,249 +2,30 @@
 
 ## Role
 
-Repository Governance & Documentation Standards Manager
+Repository Governance Standards
 
 ## Objective
 
-Define repository-wide conventions for documentation, planning artifacts, architecture decisions, and structural consistency.
+Keep contributions (human or agent) consistent with this repo's actual conventions, and require a reviewable plan before non-trivial implementation work.
 
 ---
 
-# Repository Structure
+# Plan Before Implementation
 
-```txt
-/docs
-  /plans
-  /adr
-```
+For any non-trivial component/hook/util creation or maintenance task:
 
----
-
-# Documentation Responsibilities
-
-## `/docs/plans`
-
-Purpose:
-Task-level implementation planning.
-
-Created by:
-
-- planner-agent
-
-Validated by:
-
-- workflow-orchestrator-agent
-
-Naming convention:
-
-```txt
-YYYY-MM-DD-task-name.md
-```
-
-Examples:
-
-```txt
-2026-05-08-bottom-sheet-refactor.md
-2026-05-08-select-a11y-improvements.md
-```
+1. Write a short plan first — objective, scope, affected files, testing approach — before touching code. Use Claude Code's Plan Mode, or write it out as `docs/plans/YYYY-MM-DD-task-name.md`.
+2. `docs/plans/` is gitignored — plans are a local working artifact for review before implementation, not repo history. A large pile of one-off planning docs isn't useful long-term, so they don't get committed; they live alongside whatever branch you're working on.
+3. Only start implementing once the plan has been reviewed.
 
 ---
 
-## Plan Document Requirements
+# Component, Hook & Util Conventions
 
-Each plan document must contain:
-
-- Objective
-- Scope
-- Affected Components
-- API Changes
-- Accessibility Considerations
-- Performance Considerations
-- Mobile/WebView Considerations
-- Implementation Strategy
-- Testing Strategy
-- Risks
-- Rollback Strategy
-- Definition of Done
+The actual conventions (folder layout, `.styles.ts` extraction, colocated `__tests__/`, barrel exports, README per unit) live in [docs/components.mdx](../../docs/components.mdx), [docs/hooks.mdx](../../docs/hooks.mdx), and [CLAUDE.md](../../CLAUDE.md). This file does not restate them, to avoid the two drifting apart — read those instead.
 
 ---
 
-# `/docs/adr`
+# Pull Requests
 
-Purpose:
-Persistent architectural decisions.
-
-ADR = Architecture Decision Record
-
-Used for:
-
-- long-term standards
-- architectural constraints
-- technology decisions
-- design system rules
-
-Created by:
-
-- architect-agent
-
-Validated by:
-
-- workflow-orchestrator-agent
-
-Naming convention:
-
-```txt
-XXX-decision-name.md
-```
-
-Examples:
-
-```txt
-001-compound-components.md
-002-tailwind-policy.md
-003-webview-support.md
-```
-
----
-
-# ADR Document Structure
-
-Each ADR must contain:
-
-# Title
-
-# Status
-
-Accepted | Proposed | Deprecated | Rejected
-
-# Context
-
-Explain the problem or architectural challenge.
-
-# Decision
-
-Describe the chosen solution.
-
-# Consequences
-
-List benefits, tradeoffs, and limitations.
-
-# Alternatives Considered
-
-Document rejected approaches.
-
----
-
-# Documentation Lifecycle
-
-## New Feature Workflow
-
-1. planner-agent creates `/docs/plans/...`
-2. architect-agent validates architecture
-3. task-runner-agent implements
-4. testing-strategy-agent validates tests
-5. documentation-agent updates docs
-
----
-
-# Architectural Change Workflow
-
-If a decision impacts:
-
-- architecture
-- folder structure
-- public APIs
-- design tokens
-- styling strategy
-- accessibility standards
-- performance standards
-
-Then:
-
-- an ADR MUST be created or updated
-
----
-
-# Repository Rules
-
-## Forbidden
-
-- undocumented architectural decisions
-- implementation without planning documents
-- ADRs without consequences section
-- task execution without defined scope
-
----
-
-# Ownership Rules
-
-## planner-agent
-
-Owns:
-
-- `/docs/plans`
-
-## architect-agent
-
-Owns:
-
-- `/docs/adr`
-
-## documentation-agent
-
-Owns:
-
-- maintenance and consistency
-
-## workflow-orchestrator-agent
-
-Owns:
-
-- workflow enforcement
-- validation gates
-
-## Component Co-location Rule
-
-Each component MUST be self-contained.
-
-Required structure:
-
-Button/
-Button.tsx
-Button.styles.ts
-Button.types.ts
-Button.stories.tsx
-Button.docs.mdx (optional: extended MDX docs page for Storybook)
-README.md
-index.ts
-**tests**/
-Button.test.tsx
-Button.a11y.test.tsx
-
-Rules:
-
-- tests live inside **tests**/ within the component folder
-- stories live next to component (not inside **tests**)
-- no central test folder for components
-- shared test utilities allowed in /tests only
-
-## Theme Token Governance
-
-Rules:
-
-- UIThemeTokens is the single source of truth type definition
-- No duplicate token definitions allowed across packages
-- Any change to token structure requires ADR
-- Tokens must support runtime overrides (no build-time only theming)
-
-## Testing File Structure
-
-All component-level tests MUST be colocated inside the component folder using:
-
-**tests**/ directory within the component folder (mandatory standard).
-
-Rules:
-
-- No centralized test folder for components
-- Shared utilities allowed in /tests only
-- Hooks follow same colocation rules as components
+Every PR uses `.github/PULL_REQUEST_TEMPLATE.md`, filled out completely (not left blank). Commit messages and PR titles follow Conventional Commits — see `CLAUDE.md` for the exact rules, since that is the single source of truth and this file must not restate or drift from it. Any change to a published package (`@inzumer/ui-library`, `@inzumer/tokens`) needs a changeset (`pnpm changeset`) before the PR is opened.
