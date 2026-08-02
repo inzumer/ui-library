@@ -1,5 +1,11 @@
 # @inzumer/ui-library
 
+## 1.0.1
+
+### Patch Changes
+
+- 774a94e: Fix `Timeline`'s connecting line being visibly offset from the node dots. The line is a `border-l` on the list, and the dots now center on it via `-translate-x-1/2` instead of a fixed offset that didn't account for the dot's own width.
+
 ## 1.0.0
 
 ### Major Changes
