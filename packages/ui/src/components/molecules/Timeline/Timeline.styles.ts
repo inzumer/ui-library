@@ -1,4 +1,5 @@
-export const timelineStyles = 'flex flex-col gap-8 border-l border-[var(--border-default)] pl-6';
+export const timelineStyles =
+  "relative flex flex-col gap-8 pl-6 before:absolute before:bottom-0 before:left-0 before:top-1.5 before:border-l before:border-[var(--border-default)] before:content-['']";
 
 export const timelineItemStyles = 'relative';
 
