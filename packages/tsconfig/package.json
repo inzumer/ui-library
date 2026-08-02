@@ -1,12 +1,9 @@
 {
   "name": "@inzumer/tsconfig",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "description": "Shared TypeScript configurations for the Inzumer design system",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
     "./base": "./base.json",
     "./react-library": "./react-library.json",

@@ -1,12 +1,9 @@
 {
   "name": "@inzumer/prettier-config",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "description": "Shared Prettier configuration for the Inzumer design system",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "main": "index.json",
   "exports": {
     ".": "./index.json"
