@@ -1,5 +1,12 @@
 # @inzumer/ui-library
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [74d41a1]
+  - @inzumer/tokens@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes
