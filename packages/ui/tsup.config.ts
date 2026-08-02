@@ -1,11 +1,27 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: {
     index: 'src/index.ts',
-    'components/Button/index': 'src/components/Button/index.ts',
-    'components/Input/index': 'src/components/Input/index.ts',
-    'components/Card/index': 'src/components/Card/index.ts',
+    'components/atoms/Button/index': 'src/components/atoms/Button/index.ts',
+    'components/atoms/Icon/index': 'src/components/atoms/Icon/index.ts',
+    'components/atoms/Image/index': 'src/components/atoms/Image/index.ts',
+    'components/atoms/Input/index': 'src/components/atoms/Input/index.ts',
+    'components/atoms/Link/index': 'src/components/atoms/Link/index.ts',
+    'components/atoms/RichText/index': 'src/components/atoms/RichText/index.ts',
+    'components/atoms/Switch/index': 'src/components/atoms/Switch/index.ts',
+    'components/molecules/BottomSheet/index': 'src/components/molecules/BottomSheet/index.ts',
+    'components/molecules/Breadcrumbs/index': 'src/components/molecules/Breadcrumbs/index.ts',
+    'components/molecules/Card/index': 'src/components/molecules/Card/index.ts',
+    'components/molecules/Language/index': 'src/components/molecules/Language/index.ts',
+    'components/molecules/Modal/index': 'src/components/molecules/Modal/index.ts',
+    'components/molecules/Snackbar/index': 'src/components/molecules/Snackbar/index.ts',
+    'components/molecules/Timeline/index': 'src/components/molecules/Timeline/index.ts',
+    'hooks/useDelayedUnmount/index': 'src/hooks/useDelayedUnmount/index.ts',
+    'hooks/useDismissableLayer/index': 'src/hooks/useDismissableLayer/index.ts',
+    'hooks/useMediaQuery/index': 'src/hooks/useMediaQuery/index.ts',
+    'hooks/useMergedRef/index': 'src/hooks/useMergedRef/index.ts',
+    'utils/cn/index': 'src/utils/cn/index.ts',
   },
   format: ['esm'],
   target: 'es2022',
@@ -15,5 +31,12 @@ export default defineConfig({
   treeshake: true,
   splitting: true,
   outDir: 'dist',
-  external: ['react', 'react-dom', '@cysur/tokens', 'class-variance-authority', 'clsx', 'tailwind-merge'],
-})
+  external: [
+    'react',
+    'react-dom',
+    '@inzumer/tokens',
+    'class-variance-authority',
+    'clsx',
+    'tailwind-merge',
+  ],
+});

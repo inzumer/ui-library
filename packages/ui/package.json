@@ -1,9 +1,27 @@
 {
-  "name": "@cysur/ui",
+  "name": "@inzumer/ui-library",
   "version": "0.1.0",
   "private": false,
-  "description": "React UI component library for the Cysur design system",
+  "description": "React UI component library for the Inzumer design system",
   "license": "MIT",
+  "author": "Nahuel Zamuner <inzumer@gmail.com>",
+  "homepage": "https://github.com/inzumer/ui-library/tree/main/packages/ui#readme",
+  "bugs": {
+    "url": "https://github.com/inzumer/ui-library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inzumer/ui-library.git",
+    "directory": "packages/ui"
+  },
+  "keywords": [
+    "react",
+    "component-library",
+    "design-system",
+    "ui",
+    "tailwindcss",
+    "typescript"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -15,16 +33,80 @@
       "import": "./dist/index.js"
     },
     "./button": {
-      "types": "./dist/components/Button/index.d.ts",
-      "import": "./dist/components/Button/index.js"
+      "types": "./dist/components/atoms/Button/index.d.ts",
+      "import": "./dist/components/atoms/Button/index.js"
+    },
+    "./icon": {
+      "types": "./dist/components/atoms/Icon/index.d.ts",
+      "import": "./dist/components/atoms/Icon/index.js"
+    },
+    "./image": {
+      "types": "./dist/components/atoms/Image/index.d.ts",
+      "import": "./dist/components/atoms/Image/index.js"
     },
     "./input": {
-      "types": "./dist/components/Input/index.d.ts",
-      "import": "./dist/components/Input/index.js"
+      "types": "./dist/components/atoms/Input/index.d.ts",
+      "import": "./dist/components/atoms/Input/index.js"
+    },
+    "./link": {
+      "types": "./dist/components/atoms/Link/index.d.ts",
+      "import": "./dist/components/atoms/Link/index.js"
+    },
+    "./rich-text": {
+      "types": "./dist/components/atoms/RichText/index.d.ts",
+      "import": "./dist/components/atoms/RichText/index.js"
+    },
+    "./switch": {
+      "types": "./dist/components/atoms/Switch/index.d.ts",
+      "import": "./dist/components/atoms/Switch/index.js"
+    },
+    "./bottom-sheet": {
+      "types": "./dist/components/molecules/BottomSheet/index.d.ts",
+      "import": "./dist/components/molecules/BottomSheet/index.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/components/molecules/Breadcrumbs/index.d.ts",
+      "import": "./dist/components/molecules/Breadcrumbs/index.js"
     },
     "./card": {
-      "types": "./dist/components/Card/index.d.ts",
-      "import": "./dist/components/Card/index.js"
+      "types": "./dist/components/molecules/Card/index.d.ts",
+      "import": "./dist/components/molecules/Card/index.js"
+    },
+    "./language": {
+      "types": "./dist/components/molecules/Language/index.d.ts",
+      "import": "./dist/components/molecules/Language/index.js"
+    },
+    "./modal": {
+      "types": "./dist/components/molecules/Modal/index.d.ts",
+      "import": "./dist/components/molecules/Modal/index.js"
+    },
+    "./snackbar": {
+      "types": "./dist/components/molecules/Snackbar/index.d.ts",
+      "import": "./dist/components/molecules/Snackbar/index.js"
+    },
+    "./timeline": {
+      "types": "./dist/components/molecules/Timeline/index.d.ts",
+      "import": "./dist/components/molecules/Timeline/index.js"
+    },
+    "./use-delayed-unmount": {
+      "types": "./dist/hooks/useDelayedUnmount/index.d.ts",
+      "import": "./dist/hooks/useDelayedUnmount/index.js"
+    },
+    "./use-dismissable-layer": {
+      "types": "./dist/hooks/useDismissableLayer/index.d.ts",
+      "import": "./dist/hooks/useDismissableLayer/index.js"
+    },
+    "./use-media-query": {
+      "types": "./dist/hooks/useMediaQuery/index.d.ts",
+      "import": "./dist/hooks/useMediaQuery/index.js"
+    },
+    "./use-merged-ref": {
+      "types": "./dist/hooks/useMergedRef/index.d.ts",
+      "import": "./dist/hooks/useMergedRef/index.js"
+    },
+    "./cn": {
+      "types": "./dist/utils/cn/index.d.ts",
+      "import": "./dist/utils/cn/index.js"
     }
   },
   "files": [
@@ -38,10 +120,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src",
-    "clean": "rm -rf dist"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
-    "@cysur/tokens": "workspace:*"
+    "@inzumer/tokens": "workspace:*"
   },
   "peerDependencies": {
     "class-variance-authority": ">=0.7.0",
@@ -51,7 +133,8 @@
     "tailwind-merge": ">=2.0.0"
   },
   "devDependencies": {
-    "@cysur/tsconfig": "workspace:*",
+    "@inzumer/eslint-config": "workspace:*",
+    "@inzumer/tsconfig": "workspace:*",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
@@ -60,10 +143,12 @@
     "@vitest/coverage-v8": "^2.1.6",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "eslint": "^9.39.5",
     "jsdom": "^25.0.1",
     "tailwind-merge": "2.6.1",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^2.1.6"
   }
 }

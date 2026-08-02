@@ -1,11 +1,18 @@
 {
-  "extends": "@cysur/tsconfig/react-library",
+  "extends": "@inzumer/tsconfig/react-library",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": ".",
     "paths": {
-      "@cysur/tokens": ["../tokens/src/index.ts"]
+      "@inzumer/tokens": ["../tokens/src/index.ts"],
+      "@/*": ["./src/*"],
+      "@components": ["./src/components/index.ts"],
+      "@components/*": ["./src/components/*"],
+      "@hooks": ["./src/hooks/index.ts"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@utils": ["./src/utils/index.ts"],
+      "@utils/*": ["./src/utils/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "include": ["src"],
