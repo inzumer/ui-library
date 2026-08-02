@@ -21,10 +21,17 @@ import '@inzumer/tokens/css/variables';
 import '@inzumer/tokens/css/typography';
 ```
 
+`css/reset` sets `html { font-size: 62.5% }` (`1rem = 10px` at the browser default) — this matches
+the convention already used across the Inzumer ecosystem (`inzumer`, `zamuner`), and every token in
+`@inzumer/tokens` (spacing, radius, font sizes) is scaled to match it. If your app doesn't apply
+this reset, or sets a different root font-size, components will render at the wrong scale (e.g. a
+button sized for `1rem = 16px` renders ~62.5% too small under a `1rem = 10px` root, or vice versa).
+`1rem` still tracks the user's own font-size preference regardless, since it's a percentage of
+their browser/OS default rather than a fixed pixel value.
+
 ```ts
 // tailwind.config.ts
 import type { Config } from 'tailwindcss';
-
 import { DefaultPreset } from '@inzumer/tokens/tailwind';
 
 export default {

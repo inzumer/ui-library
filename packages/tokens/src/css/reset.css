@@ -14,6 +14,7 @@
 }
 
 html {
+  font-size: 62.5%;
   hanging-punctuation: first last;
   color-scheme: light dark;
 }
