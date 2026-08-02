@@ -1,5 +1,5 @@
 // @ts-check
-import vitest from 'eslint-plugin-vitest'
+import vitest from '@vitest/eslint-plugin'
 
 /** @type {import('eslint').Linter.Config[]} */
 export const testing = [

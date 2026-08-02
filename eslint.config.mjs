@@ -1,4 +1,4 @@
-import { base, react, testing } from '@cysur/eslint-config'
+import { base, react, testing } from '@inzumer/eslint-config'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [

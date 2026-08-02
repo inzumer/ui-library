@@ -9,6 +9,7 @@ import { base } from './base.js'
 export const reactConfig = [
   ...base,
   {
+    files: ['**/*.{jsx,tsx}'],
     plugins: {
       react,
       'react-hooks': reactHooks,

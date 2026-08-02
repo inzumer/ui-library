@@ -7,6 +7,7 @@ import unusedImports from 'eslint-plugin-unused-imports'
 /** @type {import('eslint').Linter.Config[]} */
 export const base = [
   {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     plugins: {
       '@typescript-eslint': tseslint,
       'import-x': importX,
@@ -33,20 +34,12 @@ export const base = [
         'warn',
         { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
       ],
-      'import-x/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-          pathGroups: [
-            { pattern: '@cysur/**', group: 'internal', position: 'before' },
-          ],
-          pathGroupsExcludedImportTypes: ['type'],
-        },
-      ],
+      // Import order is Prettier's job (@ianvs/prettier-plugin-sort-imports);
+      // enforcing it here too just makes the two tools fight.
       'import-x/no-duplicates': 'error',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      semi: ['error', 'always'],
+      curly: ['error', 'all'],
     },
   },
 ]

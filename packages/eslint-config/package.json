@@ -1,8 +1,8 @@
 {
-  "name": "@cysur/eslint-config",
+  "name": "@inzumer/eslint-config",
   "version": "0.1.0",
   "private": false,
-  "description": "Shared ESLint flat configuration for the Cysur design system",
+  "description": "Shared ESLint flat configuration for the Inzumer design system",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -24,12 +24,12 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
+    "@vitest/eslint-plugin": "^1.6.24",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import-x": "^4.5.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-unused-imports": "^4.1.4",
-    "eslint-plugin-vitest": "^0.5.4"
+    "eslint-plugin-unused-imports": "^4.1.4"
   }
 }

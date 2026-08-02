@@ -1,15 +1,15 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
-import { cysurPreset } from './packages/tokens/src/tailwind/preset'
+import { DefaultPreset } from './packages/tokens/src/tailwind/preset';
 
 const config: Config = {
-  presets: [cysurPreset],
+  presets: [DefaultPreset],
   content: [
     './packages/ui/src/**/*.{ts,tsx}',
     './packages/tokens/src/**/*.{ts,tsx}',
     './apps/**/*.{ts,tsx}',
   ],
   plugins: [],
-}
+};
 
-export default config
+export default config;

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/prettierrc",
-  "semi": false,
+  "semi": true,
   "singleQuote": true,
   "jsxSingleQuote": false,
   "trailingComma": "all",
@@ -16,12 +16,9 @@
   "importOrder": [
     "<BUILTIN_MODULES>",
     "<THIRD_PARTY_MODULES>",
-    "",
-    "^@cysur/(.*)$",
-    "",
+    "^@inzumer/(.*)$",
+    "^(@components|@themes|@tokens|@theme-types|@utils|@styles)/(.*)$",
     "^[./]"
   ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "plugins": ["@prettier/plugin-sort-imports"]
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"]
 }
