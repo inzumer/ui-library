@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git ls-tree *)",
+      "Bash(npx vitest *)",
+      "PowerShell(pnpm run lint 2>&1)",
+      "Bash(pnpm --filter @inzumer/ui-library typecheck)",
+      "Bash(pnpm --filter @inzumer/ui-library test)",
+      "Bash(pnpm --filter @inzumer/ui-library test:coverage)"
+    ]
+  }
+}
