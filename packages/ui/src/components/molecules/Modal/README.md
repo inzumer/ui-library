@@ -8,7 +8,7 @@ placement/animation.
 ## Usage
 
 ```tsx
-import { Modal, Button } from '@inzumer/ui-library';
+import { Button, Modal } from '@inzumer/ui-library';
 
 const [open, setOpen] = useState(false);
 

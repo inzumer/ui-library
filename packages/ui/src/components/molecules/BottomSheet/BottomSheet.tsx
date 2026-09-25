@@ -1,7 +1,7 @@
-import { forwardRef, useRef, type HTMLAttributes, type ReactNode } from 'react';
 import { RichText } from '@components';
 import { useDelayedUnmount, useDismissableLayer, useMergedRef } from '@hooks';
 import { cn } from '@utils';
+import { forwardRef, useRef, type HTMLAttributes, type ReactNode } from 'react';
 import {
   bottomSheetFooterStyles,
   bottomSheetHandleStyles,
@@ -47,7 +47,12 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
         >
           <div aria-hidden className={bottomSheetHandleStyles} />
           {title && (
-            <RichText as="h2" id="bottom-sheet-title" variant="s1" className={bottomSheetTitleStyles}>
+            <RichText
+              as="h2"
+              id="bottom-sheet-title"
+              variant="s1"
+              className={bottomSheetTitleStyles}
+            >
               {title}
             </RichText>
           )}

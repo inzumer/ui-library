@@ -10,8 +10,14 @@ import { Timeline } from '@inzumer/ui-library';
 
 <Timeline
   items={[
-    { title: '2023 — Founded', description: ['The company was founded with a small team of three.'] },
-    { title: '2024 — Series A', description: ['Raised a Series A round.', 'Expanded the team to 20 people.'] },
+    {
+      title: '2023 — Founded',
+      description: ['The company was founded with a small team of three.'],
+    },
+    {
+      title: '2024 — Series A',
+      description: ['Raised a Series A round.', 'Expanded the team to 20 people.'],
+    },
   ]}
 />;
 ```

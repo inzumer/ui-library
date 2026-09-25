@@ -1,6 +1,6 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { RichText } from '@components';
 import { cn } from '@utils';
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import {
   timelineDescriptionListStyles,
   timelineDescriptionStyles,
@@ -31,7 +31,12 @@ export const Timeline = forwardRef<HTMLUListElement, TimelineProps>(
           </RichText>
           <div className={timelineDescriptionListStyles}>
             {item.description.map((description, descriptionIndex) => (
-              <RichText key={descriptionIndex} as="p" variant="p3" className={timelineDescriptionStyles}>
+              <RichText
+                key={descriptionIndex}
+                as="p"
+                variant="p3"
+                className={timelineDescriptionStyles}
+              >
                 {description}
               </RichText>
             ))}

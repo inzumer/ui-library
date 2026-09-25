@@ -1,6 +1,6 @@
+import { Timeline } from '@components';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { Timeline } from '@components';
 
 describe('Timeline', () => {
   const items = [

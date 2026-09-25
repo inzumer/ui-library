@@ -1,7 +1,7 @@
-import { forwardRef, useRef, type HTMLAttributes, type ReactNode } from 'react';
 import { RichText } from '@components';
 import { useDelayedUnmount, useDismissableLayer, useMergedRef } from '@hooks';
 import { cn } from '@utils';
+import { forwardRef, useRef, type HTMLAttributes, type ReactNode } from 'react';
 import {
   modalFooterStyles,
   modalOverlayStyles,
