@@ -1,5 +1,13 @@
 # @inzumer/ui-library
 
+## 1.3.0
+
+### Minor Changes
+
+- 696efcb: Add the `Accordion` component (native `<details>`/`<summary>`) and the `Table` component family
+  (`Table`, `TableHead`, `TableBody`, `TableRow`, `TableHeaderCell`, `TableCell`) with a horizontal
+  scroll container for small screens.
+
 ## 1.2.0
 
 ### Minor Changes
