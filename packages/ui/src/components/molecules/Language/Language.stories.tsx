@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import { useState } from 'react';
-import readme from './README.md?raw';
 import { Language } from './Language';
+import readme from './README.md?raw';
 
 const options = [
   { value: 'es', label: 'ES' },
@@ -38,13 +38,17 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const esOption = canvas.getByRole('option', { name: 'ES' });
-    const enOption = canvas.getByRole('option', { name: 'EN' });
+    const esOption = canvas.getByRole('radio', { name: 'ES' });
+    const enOption = canvas.getByRole('radio', { name: 'EN' });
 
-    await expect(esOption).toHaveAttribute('aria-selected', 'true');
+    await expect(esOption).toHaveAttribute('aria-checked', 'true');
 
     await userEvent.click(enOption);
-    await expect(enOption).toHaveAttribute('aria-selected', 'true');
-    await expect(esOption).toHaveAttribute('aria-selected', 'false');
+    await expect(enOption).toHaveAttribute('aria-checked', 'true');
+    await expect(esOption).toHaveAttribute('aria-checked', 'false');
+
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(esOption).toHaveAttribute('aria-checked', 'true');
+    await expect(esOption).toHaveFocus();
   },
 };

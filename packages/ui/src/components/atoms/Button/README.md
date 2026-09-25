@@ -21,10 +21,30 @@ import { Button } from '@inzumer/ui-library';
 - Accepts every native `<button>` attribute (`disabled`, `type`, `form`, ...) and forwards its ref
   to the underlying `HTMLButtonElement`
 
+## Links that look like buttons (`asChild`)
+
+Pass `asChild` and a single element child: the child is rendered instead of a `<button>`,
+receiving the button classes, props and ref (click handlers from both run; `className` and `style`
+are merged). Use it for navigation, so the element stays a real link:
+
+```tsx
+<Button asChild variant="secondary">
+  <a href="/calculator">Go to the calculator</a>
+</Button>
+```
+
+`buttonStyles` is also exported to style any other element with the same variants:
+
+```tsx
+import { buttonStyles } from '@inzumer/ui-library';
+
+<a className={buttonStyles({ variant: 'primary', size: 'lg' })} href="/">
+  Home
+</a>;
+```
+
 ## Notes
 
-- `asChild` is declared on the props type but isn't wired up yet (no Radix-style `Slot` behavior) —
-  don't rely on it.
-- For a link that's styled like a button (navigates instead of triggering an action), use `Link`
-  with `Button`'s classes via `className`, not `Button` itself — `Button` always renders a real
-  `<button>`.
+- `asChild` with text or several children renders nothing: wrap them in a single element.
+- `disabled` has no effect on non-button children (links can't be disabled); don't render the
+  link instead.
