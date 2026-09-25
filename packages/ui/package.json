@@ -68,6 +68,10 @@
       "types": "./dist/components/atoms/Textarea/index.d.ts",
       "import": "./dist/components/atoms/Textarea/index.js"
     },
+    "./accordion": {
+      "types": "./dist/components/molecules/Accordion/index.d.ts",
+      "import": "./dist/components/molecules/Accordion/index.js"
+    },
     "./bottom-sheet": {
       "types": "./dist/components/molecules/BottomSheet/index.d.ts",
       "import": "./dist/components/molecules/BottomSheet/index.js"
@@ -95,6 +99,10 @@
     "./snackbar": {
       "types": "./dist/components/molecules/Snackbar/index.d.ts",
       "import": "./dist/components/molecules/Snackbar/index.js"
+    },
+    "./table": {
+      "types": "./dist/components/molecules/Table/index.d.ts",
+      "import": "./dist/components/molecules/Table/index.js"
     },
     "./timeline": {
       "types": "./dist/components/molecules/Timeline/index.d.ts",
