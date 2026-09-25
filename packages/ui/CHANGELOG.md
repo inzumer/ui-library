@@ -1,5 +1,13 @@
 # @inzumer/ui-library
 
+## 1.2.0
+
+### Minor Changes
+
+- f79f613: Add `Select`, `Textarea` and `Drawer` components and the `useFocusTrap` and `useScrollLock` hooks.
+  `Modal` and `BottomSheet` now trap focus while open (returning it to the trigger on close), lock the
+  page scroll behind them and use a unique id for their title, so several can coexist on a page.
+
 ## 1.1.0
 
 ### Minor Changes
