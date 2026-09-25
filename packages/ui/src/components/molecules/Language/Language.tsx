@@ -1,10 +1,13 @@
-import { forwardRef, useLayoutEffect, useRef, useState, type HTMLAttributes } from 'react';
 import { cn } from '@utils';
 import {
-  languageIndicatorStyles,
-  languageOptionStyles,
-  languageStyles,
-} from './Language.styles';
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type HTMLAttributes,
+  type KeyboardEvent,
+} from 'react';
+import { languageIndicatorStyles, languageOptionStyles, languageStyles } from './Language.styles';
 
 export interface LanguageOption {
   value: string;
@@ -19,10 +22,20 @@ export type LanguageProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> & {
 
 type IndicatorRect = { left: number; top: number; width: number; height: number };
 
+const NEXT_KEYS = new Set(['ArrowRight', 'ArrowDown']);
+const PREVIOUS_KEYS = new Set(['ArrowLeft', 'ArrowUp']);
+
+/**
+ * Single-choice segmented switch, following the WAI-ARIA radio group pattern: one Tab stop,
+ * arrow keys (and Home/End) move the selection. Name it with `aria-label` (defaults to
+ * "Language selector") or `aria-labelledby`.
+ */
 export const Language = forwardRef<HTMLDivElement, LanguageProps>(
   ({ options, value, onChange, className, ...props }, ref) => {
     const buttonRefs = useRef(new Map<string, HTMLButtonElement>());
     const [indicator, setIndicator] = useState<IndicatorRect | null>(null);
+    const selectedIndex = options.findIndex((option) => option.value === value);
+    const focusableIndex = selectedIndex === -1 ? 0 : selectedIndex;
 
     useLayoutEffect(() => {
       const activeButton = buttonRefs.current.get(value);
@@ -38,10 +51,39 @@ export const Language = forwardRef<HTMLDivElement, LanguageProps>(
       });
     }, [value, options]);
 
+    const select = (index: number) => {
+      const option = options[index];
+      if (!option) {
+        return;
+      }
+      buttonRefs.current.get(option.value)?.focus();
+      if (option.value !== value) {
+        onChange(option.value);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+      const last = options.length - 1;
+      let target: number | null = null;
+      if (NEXT_KEYS.has(event.key)) {
+        target = focusableIndex === last ? 0 : focusableIndex + 1;
+      } else if (PREVIOUS_KEYS.has(event.key)) {
+        target = focusableIndex === 0 ? last : focusableIndex - 1;
+      } else if (event.key === 'Home') {
+        target = 0;
+      } else if (event.key === 'End') {
+        target = last;
+      }
+      if (target !== null) {
+        event.preventDefault();
+        select(target);
+      }
+    };
+
     return (
       <div
         ref={ref}
-        role="listbox"
+        role="radiogroup"
         aria-label="Language selector"
         className={cn(languageStyles, className)}
         {...props}
@@ -57,7 +99,7 @@ export const Language = forwardRef<HTMLDivElement, LanguageProps>(
             }}
           />
         )}
-        {options.map((option) => {
+        {options.map((option, index) => {
           const selected = option.value === value;
 
           return (
@@ -71,9 +113,11 @@ export const Language = forwardRef<HTMLDivElement, LanguageProps>(
                 }
               }}
               type="button"
-              role="option"
-              aria-selected={selected}
+              role="radio"
+              aria-checked={selected}
+              tabIndex={index === focusableIndex ? 0 : -1}
               onClick={() => onChange(option.value)}
+              onKeyDown={handleKeyDown}
               className={languageOptionStyles({ selected })}
             >
               {option.label}

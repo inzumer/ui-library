@@ -26,6 +26,14 @@ const [value, setValue] = useState('es');
 - No i18n library wiring included — call your i18n library's language-change function from
   `onChange` yourself
 
+## Accessibility
+
+- Follows the WAI-ARIA **radio group** pattern: `role="radiogroup"` with a `role="radio"` per
+  option (`aria-checked`), a single Tab stop on the checked option, and **Arrow keys / Home / End**
+  to move the selection.
+- The group defaults to the English name "Language selector": pass a localized `aria-label` (or
+  `aria-labelledby`) in non-English UIs.
+
 ## Notes
 
 - The sliding indicator measures the selected option's DOM position in a `useLayoutEffect`, so it

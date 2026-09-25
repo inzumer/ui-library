@@ -1,22 +1,29 @@
-import type { VariantProps } from 'class-variance-authority';
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cn } from '@utils';
+import type { VariantProps } from 'class-variance-authority';
+import { forwardRef, type ButtonHTMLAttributes, type Ref } from 'react';
 import { buttonStyles } from './Button.styles';
+import { Slot } from './Slot';
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonStyles> & {
+    /**
+     * Render the single child element (e.g. an `<a>`) with the button styles and props instead of
+     * a `<button>`. Use it for navigation that must look like a button.
+     */
     asChild?: boolean;
   };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, fullWidth, ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={cn(buttonStyles({ variant, size, fullWidth }), className)}
-        {...props}
-      />
-    );
+  ({ className, variant, size, fullWidth, asChild = false, ...props }, ref) => {
+    const classes = cn(buttonStyles({ variant, size, fullWidth }), className);
+
+    if (asChild) {
+      // The ref points at whatever element the child renders (usually an <a>), not a <button>.
+      const slotRef = ref as unknown as Ref<HTMLElement>;
+      return <Slot ref={slotRef} className={classes} {...props} />;
+    }
+
+    return <button ref={ref} className={classes} {...props} />;
   },
 );
 

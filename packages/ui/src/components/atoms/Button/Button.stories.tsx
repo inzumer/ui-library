@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
-import readme from './README.md?raw';
 import { Button } from './Button';
+import readme from './README.md?raw';
 
 // Explicit `Meta<typeof Button>` annotation (instead of `satisfies`) because `fn()`'s inferred
 // return type isn't portable across packages, which trips `tsc`'s declaration-emit check.
@@ -111,5 +111,20 @@ export const FullWidth: Story = {
   },
   parameters: {
     layout: 'padded',
+  },
+};
+
+export const AsChildLink: Story = {
+  args: {
+    asChild: true,
+    variant: 'primary',
+    children: <a href="#calculator">Go to the calculator</a>,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const link = canvas.getByRole('link', { name: 'Go to the calculator' });
+
+    await expect(link).toHaveAttribute('href', '#calculator');
+    await expect(canvas.queryByRole('button')).not.toBeInTheDocument();
   },
 };
