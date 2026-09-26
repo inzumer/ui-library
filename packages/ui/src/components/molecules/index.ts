@@ -5,6 +5,7 @@ export * from './Card';
 export * from './CookieBanner';
 export * from './CookiePreferences';
 export * from './Drawer';
+export * from './Dropdown';
 export * from './Language';
 export * from './Modal';
 export * from './Snackbar';
