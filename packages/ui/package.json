@@ -1,6 +1,6 @@
 {
   "name": "@inzumer/ui-library",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": false,
   "description": "React UI component library for the Inzumer design system",
   "license": "MIT",
