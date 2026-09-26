@@ -19,6 +19,7 @@ export default defineConfig({
     'components/molecules/CookieBanner/index': 'src/components/molecules/CookieBanner/index.ts',
     'components/molecules/CookiePreferences/index': 'src/components/molecules/CookiePreferences/index.ts',
     'components/molecules/Drawer/index': 'src/components/molecules/Drawer/index.ts',
+    'components/molecules/Dropdown/index': 'src/components/molecules/Dropdown/index.ts',
     'components/molecules/Language/index': 'src/components/molecules/Language/index.ts',
     'components/molecules/Modal/index': 'src/components/molecules/Modal/index.ts',
     'components/molecules/Snackbar/index': 'src/components/molecules/Snackbar/index.ts',

@@ -96,6 +96,10 @@
       "types": "./dist/components/molecules/Drawer/index.d.ts",
       "import": "./dist/components/molecules/Drawer/index.js"
     },
+    "./dropdown": {
+      "types": "./dist/components/molecules/Dropdown/index.d.ts",
+      "import": "./dist/components/molecules/Dropdown/index.js"
+    },
     "./language": {
       "types": "./dist/components/molecules/Language/index.d.ts",
       "import": "./dist/components/molecules/Language/index.js"
