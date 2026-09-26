@@ -1,5 +1,11 @@
 # @inzumer/ui-library
 
+## 1.5.0
+
+### Minor Changes
+
+- 0ce2dbc: Add `Dropdown`: a themed select (WAI-ARIA select-only combobox) whose option list follows the tokens on every device, with keyboard support, hint/error and form submission through a hidden input.
+
 ## 1.4.0
 
 ### Minor Changes
