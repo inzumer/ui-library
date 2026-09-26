@@ -16,6 +16,8 @@ export default defineConfig({
     'components/molecules/BottomSheet/index': 'src/components/molecules/BottomSheet/index.ts',
     'components/molecules/Breadcrumbs/index': 'src/components/molecules/Breadcrumbs/index.ts',
     'components/molecules/Card/index': 'src/components/molecules/Card/index.ts',
+    'components/molecules/CookieBanner/index': 'src/components/molecules/CookieBanner/index.ts',
+    'components/molecules/CookiePreferences/index': 'src/components/molecules/CookiePreferences/index.ts',
     'components/molecules/Drawer/index': 'src/components/molecules/Drawer/index.ts',
     'components/molecules/Language/index': 'src/components/molecules/Language/index.ts',
     'components/molecules/Modal/index': 'src/components/molecules/Modal/index.ts',
